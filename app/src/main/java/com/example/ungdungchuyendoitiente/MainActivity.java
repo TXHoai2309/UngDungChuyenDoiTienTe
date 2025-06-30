@@ -34,6 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        // binh viet lan 6
+        // binh viet lan 7
     }
 }
