@@ -35,6 +35,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // binh viet lan 8
-        // hoai viet lan 7
     }
 }
