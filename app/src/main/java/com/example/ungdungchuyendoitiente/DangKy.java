@@ -22,4 +22,6 @@ public class DangKy extends AppCompatActivity {
         });
     }
     // cmt
+
+    // binh lai 2
 }
