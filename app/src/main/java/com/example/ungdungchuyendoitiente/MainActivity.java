@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     EditText edtUid, edtPassword;
     TextView tvKhach;
 
+    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
