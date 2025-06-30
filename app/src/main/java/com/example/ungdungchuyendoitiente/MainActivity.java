@@ -34,6 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        // moi lan 1
+        // binh tttttt
     }
 }
