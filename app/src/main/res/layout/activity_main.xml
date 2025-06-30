@@ -5,15 +5,108 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#383636"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tvlogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="165dp"
+        android:layout_marginEnd="131dp"
+        android:text="Đăng Nhập"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvuid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="240dp"
+        android:text="UID"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvpsw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:text="Mật khẩu"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvuid" />
+
+    <EditText
+        android:id="@+id/edtuid"
+        android:layout_width="222dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="31dp"
+        android:background="@drawable/custom_edittext_dangnhap"
+        android:backgroundTint="@null"
+        android:ems="10"
+        android:hint="  UserID"
+        android:inputType="text"
+        android:text=""
+        app:layout_constraintTop_toBottomOf="@+id/tvlogin"
+        tools:layout_editor_absoluteX="121dp" />
+
+    <EditText
+        android:id="@+id/edtpsw"
+        android:layout_width="222dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_edittext_dangnhap"
+        android:backgroundTint="@null"
+        android:ems="10"
+        android:hint="  Password"
+        android:inputType="text"
+        android:text=""
+        app:layout_constraintTop_toBottomOf="@+id/edtuid"
+        tools:layout_editor_absoluteX="121dp" />
+
+    <TextView
+        android:id="@+id/tvdangky"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="75dp"
+        android:text="Đăng ký"
+        android:textColor="#67C1EF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtpsw" />
+
+    <Button
+        android:id="@+id/btnlogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="147dp"
+        android:background="@drawable/custom_btndangnhap"
+        android:text="Đăng nhập"
+        android:textColor="#5F5959"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtpsw" />
+
+    <TextView
+        android:id="@+id/tvkhongdangnhap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="129dp"
+        android:text="Sử dụng tải khoản khách"
+        android:textColor="#67C1EF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnlogin" />
 </androidx.constraintlayout.widget.ConstraintLayout>
