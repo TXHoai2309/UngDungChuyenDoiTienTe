@@ -23,5 +23,5 @@ public class DangKy extends AppCompatActivity {
     }
     // cmt
 
-    // binh lai 2
+    // binh lai 3
 }
