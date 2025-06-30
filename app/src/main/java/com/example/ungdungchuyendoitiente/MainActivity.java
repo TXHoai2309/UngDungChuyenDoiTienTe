@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     private TextView tvDangKy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +27,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         tvDangKy = findViewById(R.id.tvdangky);
-
+        tvDangKy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,DangKy.class);
+                startActivity(intent);
+            }
+        });
         // binh viet lan 9
-
     }
 }
