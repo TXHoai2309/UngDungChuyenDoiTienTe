@@ -51,6 +51,7 @@
         android:id="@+id/edtuid"
         android:layout_width="222dp"
         android:layout_height="32dp"
+        android:layout_marginStart="34dp"
         android:layout_marginTop="31dp"
         android:background="@drawable/custom_edittext_dangnhap"
         android:backgroundTint="@null"
@@ -58,13 +59,14 @@
         android:hint="  UserID"
         android:inputType="text"
         android:text=""
-        app:layout_constraintTop_toBottomOf="@+id/tvlogin"
-        tools:layout_editor_absoluteX="121dp" />
+        app:layout_constraintStart_toEndOf="@+id/tvuid"
+        app:layout_constraintTop_toBottomOf="@+id/tvlogin" />
 
     <EditText
         android:id="@+id/edtpsw"
         android:layout_width="222dp"
         android:layout_height="32dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/custom_edittext_dangnhap"
         android:backgroundTint="@null"
@@ -72,8 +74,8 @@
         android:hint="  Password"
         android:inputType="text"
         android:text=""
-        app:layout_constraintTop_toBottomOf="@+id/edtuid"
-        tools:layout_editor_absoluteX="121dp" />
+        app:layout_constraintStart_toEndOf="@+id/tvpsw"
+        app:layout_constraintTop_toBottomOf="@+id/edtuid" />
 
     <TextView
         android:id="@+id/tvdangky"
