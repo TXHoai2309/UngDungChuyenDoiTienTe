@@ -34,9 +34,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // Hoai bua
-        // cmt lan 2
-        // hi
     }
 }
