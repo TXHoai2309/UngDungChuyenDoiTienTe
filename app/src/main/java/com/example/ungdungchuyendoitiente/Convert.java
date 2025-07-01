@@ -1,8 +1,14 @@
 package com.example.ungdungchuyendoitiente;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +29,8 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
     private String status = null;
     private double firtnumberTop = 0, lastnumberTop = 0;
     private double firtnumberBottom = 0, lastnumberBottom = 0;
+    private ImageView imgvietnam, imgusa;
+    private ImageButton btnchange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +45,25 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
 
         tvmoney1 = findViewById(R.id.tvmoney1);
         tvmoney2 = findViewById(R.id.tvmoney2);
+        btnchange = findViewById(R.id.btnchange);
+        imgvietnam = findViewById(R.id.imgvietnam);
+        imgusa = findViewById(R.id.imgusa);
         // Khai báo, setting và mặc định cho menu
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_convert);
+
+        // Sự kiện cho nút đổi
+        btnchange.setOnClickListener(v -> {
+            // Hoán đổi ImageView
+            Drawable tempImage = imgvietnam.getDrawable();
+            imgvietnam.setImageDrawable(imgusa.getDrawable());
+            imgusa.setImageDrawable(tempImage);
+
+            // Hoán đổi TextView
+            String tempText = tvmoney1.getText().toString();
+            tvmoney1.setText(tvmoney2.getText().toString());
+            tvmoney2.setText(tempText);
+        });
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.bottom_setting) {
