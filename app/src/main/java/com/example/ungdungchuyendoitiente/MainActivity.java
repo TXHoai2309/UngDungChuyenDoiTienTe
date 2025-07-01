@@ -81,7 +81,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        tvKhach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,CaiDat.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
