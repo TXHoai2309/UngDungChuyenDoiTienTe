@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_convert"
+        android:icon="@drawable/icon_convert"
+        android:title="Convert"/>
+    <item
+        android:id="@+id/bottom_check"
+        android:icon="@drawable/icon_check"
+        android:title="Check"/>
+    <item
+        android:id="@+id/bottom_setting"
+        android:icon="@drawable/icon_setting"
+        android:title="Setting"/>
+</menu>
