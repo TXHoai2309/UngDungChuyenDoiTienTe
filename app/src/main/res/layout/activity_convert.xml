@@ -52,10 +52,10 @@
 
         <ImageView
             android:id="@+id/imgvietnam"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="65dp"
-            android:layout_weight="1"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             app:srcCompat="@drawable/icon_vietnam" />
 
         <TextView
@@ -87,7 +87,7 @@
 
         <ImageView
             android:id="@+id/imgusa"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="65dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/icon_usa"
