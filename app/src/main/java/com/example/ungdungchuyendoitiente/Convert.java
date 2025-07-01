@@ -64,6 +64,20 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
             tvmoney1.setText(tvmoney2.getText().toString());
             tvmoney2.setText(tempText);
         });
+        imgvietnam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Convert.this, ChonDonViTienTe.class);
+                startActivity(intent);
+            }
+        });
+        imgusa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Convert.this, ChonDonViTienTe.class);
+                startActivity(intent);
+            }
+        });
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.bottom_setting) {
@@ -222,4 +236,5 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
         if ("div".equals(op)) return b != 0 ? a / b : 0;
         return b;
     }
+
 }
