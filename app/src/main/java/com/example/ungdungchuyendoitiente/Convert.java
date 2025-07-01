@@ -1,5 +1,6 @@
 package com.example.ungdungchuyendoitiente;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class Convert extends AppCompatActivity implements View.OnClickListener{
@@ -34,6 +37,25 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
 
         tvmoney1 = findViewById(R.id.tvmoney1);
         tvmoney2 = findViewById(R.id.tvmoney2);
+        // Khai báo, setting và mặc định cho menu
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_convert);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.bottom_setting) {
+                // Chuyển sang màn CaiDat
+                Intent intent = new Intent(Convert.this, CaiDat.class);
+                startActivity(intent);
+                return true;
+            } else if (item.getItemId() == R.id.bottom_convert) {
+                // Đang ở trang Convert, không cần làm gì
+                return true;
+            } else if (item.getItemId() == R.id.bottom_check) {
+                return true;
+            }
+            return false;
+        });
+        // Hết phần menu
 
         // Chọn dòng nhập
         tvmoney1.setOnClickListener(v -> {
