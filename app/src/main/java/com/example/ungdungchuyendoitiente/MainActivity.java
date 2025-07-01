@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                     // Kiểm tra thông tin đăng nhập trong database
                     if(db.checkUser(id,psw)){
                         Toast.makeText(MainActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, Convert.class);
+                        startActivity(intent);
+                        finish();
                         // Có thể chuyển sang màn hình chính của app tại đây
                         Intent mainIntent = new Intent(MainActivity.this, Convert.class);
                         startActivity(mainIntent);
