@@ -18,7 +18,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.List;
 
+// Activity cho chức năng đăng ký tài khoản mới
 public class DangKy extends AppCompatActivity {
+    // Khai báo các EditText và Button
     private EditText edtUid,edtHoten,edtPsw,edtEmail,edtSdt;
     private Button btnDangKy;
 
@@ -36,6 +38,7 @@ public class DangKy extends AppCompatActivity {
             return insets;
         });
 
+        // Ánh xạ các view từ layout
         edtUid = findViewById(R.id.edtuid2);
         edtHoten = findViewById(R.id.edthoten);
         edtPsw = findViewById(R.id.edtpsw2);
@@ -43,12 +46,15 @@ public class DangKy extends AppCompatActivity {
         edtSdt = findViewById(R.id.edtsdt);
         btnDangKy = findViewById(R.id.btndangky);
 
+        // Khởi tạo database helper
         db = new DataBaseHelper_DangKy(this);
 
 
+        // Xử lý sự kiện khi nhấn nút Đăng ký
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Lấy dữ liệu từ các trường nhập
                 String id = edtUid.getText().toString();
                 String hoTen = edtHoten.getText().toString();
                 String psw = edtPsw.getText().toString();
@@ -66,13 +72,12 @@ public class DangKy extends AppCompatActivity {
                     // Hiển thị thông báo thành công
                     Toast.makeText(DangKy.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
 
-                    // Chuyển đến màn hình đăng nhập
+                    // Chuyển đến màn hình đăng nhập, truyền id và password vừa đăng ký
                     Intent intent = new Intent(DangKy.this, MainActivity.class);
                     intent.putExtra("id",id);
                     intent.putExtra("psw",psw);
                     setResult(RESULT_OK,intent);
                     startActivity(intent);
-                    finish();
                 }
 
             }
