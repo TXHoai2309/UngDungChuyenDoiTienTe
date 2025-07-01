@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, Convert.class);
                         startActivity(intent);
                         finish();
-                        //
                     }
                     else{
                         Toast.makeText(MainActivity.this, "Thông tin đăng nhập không đúng", Toast.LENGTH_SHORT).show();
