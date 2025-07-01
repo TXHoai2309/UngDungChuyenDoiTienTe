@@ -38,12 +38,12 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TABLE = "CREATE TABLE "+ TABLE_NAME + "("+
-                COL_ID + "TEXT PRIMARY KEY  ,"+
-                COL_NAME + "TEXT,"+
-                COL_PSW + "TEXT,"+
-                COL_EMAIL +"TEXT,"+
-                COL_SDT + "TEXT)";
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
+                COL_ID + " TEXT PRIMARY KEY, " +
+                COL_NAME + " TEXT, " +
+                COL_PSW + " TEXT, " +
+                COL_EMAIL + " TEXT, " +
+                COL_SDT + " TEXT)";
         db.execSQL(CREATE_TABLE);
     }
 

@@ -39,4 +39,9 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
             tvmoney1.setBackgroundResource(android.R.color.transparent);
         });
     }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }
