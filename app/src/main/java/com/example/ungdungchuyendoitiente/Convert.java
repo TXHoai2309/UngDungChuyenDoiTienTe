@@ -198,4 +198,9 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
         if ("div".equals(op)) return b != 0 ? a / b : 0;
         return b;
     }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }

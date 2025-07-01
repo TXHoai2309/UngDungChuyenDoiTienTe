@@ -16,6 +16,9 @@
         <activity android:name=".Convert"
             android:exported="false"/>
         <activity
+            android:name=".ChonDonViTienTe"
+            android:exported="false" />
+        <activity
             android:name=".CaiDat"
             android:exported="false" />
         <activity
