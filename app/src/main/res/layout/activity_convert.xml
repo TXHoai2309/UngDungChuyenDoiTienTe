@@ -8,11 +8,32 @@
     android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/tvconvert"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Convert" />
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- TextView sẽ căn giữa -->
+        <TextView
+            android:id="@+id/tvconvert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Convert"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_weight="1" />  <!-- Đây là điểm cần thêm để TextView chiếm không gian còn lại -->
+
+        <!-- ImageView đặt ở góc phải -->
+        <ImageView
+            android:id="@+id/imglichsu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/outline_contract_24"
+            android:layout_gravity="end" />  <!-- Căn ImageView vào góc phải -->
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
