@@ -73,7 +73,7 @@
         android:backgroundTint="@null"
         android:ems="10"
         android:hint="Password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:paddingStart="8dp"
         android:text=""
         app:layout_constraintStart_toEndOf="@+id/tvpsw"
@@ -114,4 +114,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
