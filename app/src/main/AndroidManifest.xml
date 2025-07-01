@@ -13,26 +13,38 @@
         android:theme="@style/Theme.UngDungChuyenDoiTienTe"
         tools:targetApi="31">
 
-        <activity android:name=".Convert"
-            android:exported="false"/>
-        <activity
-            android:name=".ChonDonViTienTe"
-            android:exported="false" />
-        <activity
-            android:name=".CaiDat"
-            android:exported="false" />
-        <activity
-            android:name=".DangKy"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
 
-</manifest>
+    <!-- Các activity khác -->
+    <activity
+        android:name=".Convert"
+        android:exported="false" />
+    <activity
+        android:name=".ChonDonViTienTe"
+        android:exported="false" />
+    <activity
+        android:name=".CaiDat"
+        android:exported="false" />
+    <activity
+        android:name=".DangKy"
+        android:exported="false" />
+
+    <!-- MainActivity sẽ được mở sau SplashActivity -->
+    <activity
+        android:name=".MainActivity"
+        android:exported="true">
+        <!-- Không cần intent-filter MAIN và LAUNCHER nữa vì SplashActivity đã xử lý -->
+    </activity>
+
+</application>
+
+    </manifest>
