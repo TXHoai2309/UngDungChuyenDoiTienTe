@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
                     if(db.checkUser(id,psw)){
                         Toast.makeText(MainActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                         // Có thể chuyển sang màn hình chính của app tại đây
-                        //Intent mainIntent = new Intent(MainActivity.this, Convert.class);
-                        //startActivity(mainIntent);
+                        Intent mainIntent = new Intent(MainActivity.this, Convert.class);
+                        startActivity(mainIntent);
                     }
                     else{
                         Toast.makeText(MainActivity.this, "Thông tin đăng nhập không đúng", Toast.LENGTH_SHORT).show();
