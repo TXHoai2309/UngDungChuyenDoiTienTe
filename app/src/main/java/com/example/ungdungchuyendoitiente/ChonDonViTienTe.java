@@ -61,11 +61,21 @@ public class ChonDonViTienTe extends AppCompatActivity {
         ThongTinCacQuocGiaList.add(new ThongTinCacQuocGia("Đài Loan", "TWD", R.drawable.ic_taiwan));
         ThongTinCacQuocGiaList.add(new ThongTinCacQuocGia("Đông Timor", "USD", R.drawable.ic_timo_lest));
 
-        ChonDonViadapter = new ThongTinCacQuocGiaADapter(ThongTinCacQuocGiaList,this); // Đổi thứ tự tham số
+        ChonDonViadapter = new ThongTinCacQuocGiaADapter(ThongTinCacQuocGiaList, this);
         recyclerView.setAdapter(ChonDonViadapter);
 
-
+        // Xử lý khi nhấn vào cờ quốc gia
+        ChonDonViadapter.setOnItemClickListener(new ThongTinCacQuocGiaADapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ThongTinCacQuocGia item) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("imgResId", item.getHinhQuocGia());
+                resultIntent.putExtra("maTienTe", item.getMaTienTe());
+                setResult(RESULT_OK, resultIntent);
+                finish();
+            }
+        });
     }
-    // Xử lý khi nhấn vào cờ quốc gia
+
 
 }
