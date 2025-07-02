@@ -36,7 +36,8 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
     private ImageView imgvietnam, imgusa;
     private ImageButton btnchange;
 
-
+    private static final int REQUEST_CODE_SELECT_TOP = 1001;
+    private static final int REQUEST_CODE_SELECT_BOTTOM = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,20 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
             tvmoney1.setText(tvmoney2.getText().toString());
             tvmoney2.setText(tempText);
         });
+        imgvietnam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Convert.this, ChonDonViTienTe.class);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_TOP);
+            }
+        });
+        imgusa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Convert.this, ChonDonViTienTe.class);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_BOTTOM);
+            }
+        });
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.bottom_setting) {
@@ -141,6 +156,24 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
         for (int id : buttonIds) {
             View btn = findViewById(id);
             if (btn != null) btn.setOnClickListener(this);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            int imgResId = data.getIntExtra("imgResId", -1);
+            String maTienTe = data.getStringExtra("maTienTe");
+            if (imgResId != -1 && maTienTe != null) {
+                if (requestCode == REQUEST_CODE_SELECT_TOP) {
+                    imgvietnam.setImageResource(imgResId);
+                    tvmoney1.setText(maTienTe);
+                } else if (requestCode == REQUEST_CODE_SELECT_BOTTOM) {
+                    imgusa.setImageResource(imgResId);
+                    tvmoney2.setText(maTienTe);
+                }
+            }
         }
     }
 
