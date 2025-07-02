@@ -1,6 +1,9 @@
 package com.example.ungdungchuyendoitiente;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChonDonViTienTe extends AppCompatActivity {
-
+    private ImageView imgBack;
     private RecyclerView recyclerView;
     private ThongTinCacQuocGiaADapter ChonDonViadapter;
     private List<ThongTinCacQuocGia> ThongTinCacQuocGiaList;
@@ -30,7 +33,15 @@ public class ChonDonViTienTe extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        imgBack = findViewById(R.id.imgBack);
         recyclerView = findViewById(R.id.ChuyenDoiRecyclerView);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChonDonViTienTe.this, Convert.class);
+                startActivity(intent);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ThongTinCacQuocGiaList = new ArrayList<>();

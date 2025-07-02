@@ -1,5 +1,6 @@
 package com.example.ungdungchuyendoitiente;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CaiDat extends AppCompatActivity {
 
@@ -35,6 +38,8 @@ public class CaiDat extends AppCompatActivity {
         btnGray = findViewById(R.id.btnGrey);
         Logout = findViewById(R.id.txtLogout);
         imgLogout = findViewById(R.id.imgLogout);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_setting);
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +53,20 @@ public class CaiDat extends AppCompatActivity {
             }
         });
 
-
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.bottom_setting) {
+                return true;
+            } else if (item.getItemId() == R.id.bottom_convert) {
+                // Chuyển sang màn Convert
+                Intent intent = new Intent(CaiDat.this, Convert.class);
+                startActivity(intent);
+                return true;
+            } else if (item.getItemId() == R.id.bottom_check) {
+                return true;
+            }
+            return false;
+        });
+        // Hết phần menu
 
     }
 }

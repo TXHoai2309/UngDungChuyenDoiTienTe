@@ -48,6 +48,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
         btnchange = findViewById(R.id.btnchange);
         imgvietnam = findViewById(R.id.imgvietnam);
         imgusa = findViewById(R.id.imgusa);
+
         // Khai báo, setting và mặc định cho menu
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_convert);

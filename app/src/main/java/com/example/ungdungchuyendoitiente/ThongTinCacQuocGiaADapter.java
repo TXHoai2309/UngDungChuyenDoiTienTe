@@ -32,6 +32,7 @@ public class ThongTinCacQuocGiaADapter extends RecyclerView.Adapter<ThongTinCacQ
         holder.tenQuocGia.setText(thongTin.getTenQuocGia());
         holder.maTienTe.setText(thongTin.getMaTienTe());
         holder.hinhQuocGia.setImageResource(thongTin.getHinhQuocGia());
+
     }
     @Override
     public int getItemCount() {
