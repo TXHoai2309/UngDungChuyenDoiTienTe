@@ -38,12 +38,12 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView18"
+    <ImageView
+        android:id="@+id/imgBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="   Back"
-        android:textColor="@color/white" />
+        app:srcCompat="@drawable/icon_back"
+        app:tint="@color/white" />
 
     <EditText
         android:id="@+id/editTextText"
