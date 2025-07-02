@@ -66,6 +66,6 @@ public class ChonDonViTienTe extends AppCompatActivity {
             }
         });
     }
-    // Xử lý khi nhấn vào cờ quốc gia
+
 
 }
