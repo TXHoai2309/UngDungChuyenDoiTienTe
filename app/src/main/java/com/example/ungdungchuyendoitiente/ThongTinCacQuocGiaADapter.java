@@ -16,7 +16,7 @@ public class ThongTinCacQuocGiaADapter extends RecyclerView.Adapter<ThongTinCacQ
     private Context context;
 
     // Thêm constructor này
-    public ThongTinCacQuocGiaADapter(Context context, List<ThongTinCacQuocGia> thongTinCacQuocGiaList) {
+    public ThongTinCacQuocGiaADapter(List<ThongTinCacQuocGia> thongTinCacQuocGiaList,Context context) {
         this.context = context;
         this.thongTinCacQuocGiaList = thongTinCacQuocGiaList;
     }
