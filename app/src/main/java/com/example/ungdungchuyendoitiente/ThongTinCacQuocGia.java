@@ -5,7 +5,7 @@ public class ThongTinCacQuocGia {
     private String tenQuocGia;
     private int hinhQuocGia;
 
-    public ThongTinCacQuocGia(String maTienTe, String tenQuocGia, int hinhQuocGia) {
+    public ThongTinCacQuocGia(String tenQuocGia, String maTienTe, int hinhQuocGia) {
         this.maTienTe = maTienTe;
         this.tenQuocGia = tenQuocGia;
         this.hinhQuocGia = hinhQuocGia;

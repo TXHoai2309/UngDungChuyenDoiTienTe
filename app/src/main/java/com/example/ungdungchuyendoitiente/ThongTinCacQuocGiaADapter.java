@@ -14,11 +14,20 @@ import java.util.List;
 public class ThongTinCacQuocGiaADapter extends RecyclerView.Adapter<ThongTinCacQuocGiaADapter.ThongTinCacQuocGiaViewHolder> {
     private List<ThongTinCacQuocGia> thongTinCacQuocGiaList;
     private Context context;
+    private OnItemClickListener listener;
 
     // Thêm constructor này
     public ThongTinCacQuocGiaADapter(List<ThongTinCacQuocGia> thongTinCacQuocGiaList,Context context) {
         this.context = context;
         this.thongTinCacQuocGiaList = thongTinCacQuocGiaList;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(ThongTinCacQuocGia item);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -32,6 +41,9 @@ public class ThongTinCacQuocGiaADapter extends RecyclerView.Adapter<ThongTinCacQ
         holder.tenQuocGia.setText(thongTin.getTenQuocGia());
         holder.maTienTe.setText(thongTin.getMaTienTe());
         holder.hinhQuocGia.setImageResource(thongTin.getHinhQuocGia());
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onItemClick(thongTin);
+        });
     }
     @Override
     public int getItemCount() {
