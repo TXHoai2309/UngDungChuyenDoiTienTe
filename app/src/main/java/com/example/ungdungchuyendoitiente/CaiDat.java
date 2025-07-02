@@ -43,12 +43,16 @@ public class CaiDat extends AppCompatActivity {
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(CaiDat.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
         imgLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(CaiDat.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

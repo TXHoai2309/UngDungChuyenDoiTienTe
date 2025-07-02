@@ -88,6 +88,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
                 // Chuyển sang màn CaiDat
                 Intent intent = new Intent(Convert.this, CaiDat.class);
                 startActivity(intent);
+                finish();
                 return true;
             } else if (item.getItemId() == R.id.bottom_convert) {
                 // Đang ở trang Convert, không cần làm gì
