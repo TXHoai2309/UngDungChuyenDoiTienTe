@@ -19,13 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 public class Convert extends AppCompatActivity implements View.OnClickListener{
-    private TextView tvmoney1, tvmoney2, tvTigia;
+    private TextView tvmoney1, tvmoney2;
     private boolean isTopSelected = true;
     private String numberTop = null;
     private String numberBottom = null;
@@ -55,33 +51,6 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
         btnchange = findViewById(R.id.btnchange);
         imgvietnam = findViewById(R.id.imgvietnam);
         imgusa = findViewById(R.id.imgusa);
-        tvTigia = findViewById(R.id.tvapi);
-
-
-        // Khởi tạo Retrofit và API Client
-        ExchangeRateApi api = ApiClient_Price.getClient().create(ExchangeRateApi.class);
-        // Gọi API để lấy tỷ giá USD->VND
-        Call<ExchangeRateResponse> call = api.getExchangeRates("USD");
-        call.enqueue(new Callback<ExchangeRateResponse>() {
-            @Override
-            public void onResponse(Call<ExchangeRateResponse> call, Response<ExchangeRateResponse> response) {
-                if(response.isSuccessful() && response.body() != null) {
-                    ExchangeRateResponse exchangeRateResponse = response.body();
-                    Double vndRate = exchangeRateResponse.getConversionRates().get("VND");
-                    if(vndRate!=null){
-                        tvTigia.setText("1 USD = " + vndRate + " VND");
-                    } else {
-                        tvTigia.setText("Không tìm thấy tỷ giá VND");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ExchangeRateResponse> call, Throwable t) {
-                // to do something
-            }
-        });
-
 
         // Khai báo, setting và mặc định cho menu
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
@@ -106,7 +75,6 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
                 startActivityForResult(intent, REQUEST_CODE_SELECT_TOP);
             }
         });
-        // cmt
         imgusa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -290,4 +258,5 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
         if ("div".equals(op)) return b != 0 ? a / b : 0;
         return b;
     }
+
 }
