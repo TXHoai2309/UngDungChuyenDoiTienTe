@@ -7,7 +7,7 @@ public class ExchangeRateResponse {
     @SerializedName("base_code")
     private String baseCurrency;
 
-
+//
     @SerializedName("conversion_rates")
     private Map<String, Double> conversionRates;
 
