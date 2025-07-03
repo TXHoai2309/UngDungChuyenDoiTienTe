@@ -65,6 +65,32 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         return db.insert(TABLE_NAME,null,values);
     }
 
+    // Lấy thông tin người dùng theo userId
+    public ThongTinDangKy getUserInfo(String userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Sử dụng rawQuery để thực hiện truy vấn trực tiếp
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_ID + " = ?";
+
+        // Thực thi câu truy vấn và lấy dữ liệu từ cơ sở dữ liệu
+        try (Cursor cursor = db.rawQuery(query, new String[]{userId})) {
+            if (cursor != null && cursor.moveToFirst()) {
+                // Lấy thông tin người dùng từ cursor mà không cần getColumnIndex()
+                String uid = cursor.getString(0);      // Cột 0 là COL_ID
+                String name = cursor.getString(1);     // Cột 1 là COL_NAME
+                String psw = cursor.getString(2);      // Cột 2 là COL_PSW
+                String email = cursor.getString(3);    // Cột 3 là COL_EMAIL
+                String sdt = cursor.getString(4);      // Cột 4 là COL_SDT
+
+                // Trả về thông tin người dùng
+                return new ThongTinDangKy(uid, name, psw, email, sdt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log lỗi nếu có vấn đề trong truy vấn
+        }
+
+        return null;  // Trả về null nếu không tìm thấy người dùng
+    }
     public List<ThongTinDangKy> getAllThongTin(){
         List<ThongTinDangKy>  thongTinDangKyList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -101,5 +127,21 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         cursor.close();
         return isValid;
 
+    }
+    // Lấy tên người dùng
+    public String getUsername(String userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, new String[]{COL_NAME}, COL_ID + " = ?", new String[]{userId}, null, null, null);
+
+        // Đảm bảo cursor không phải là null và có kết quả
+        if (cursor != null && cursor.moveToFirst()) {
+            String username = cursor.getString(0);  // 0 là chỉ số của cột đầu tiên trong truy vấn (COL_NAME)
+            cursor.close();
+            return username;  // Trả về tên người dùng
+        }
+
+        cursor.close();
+        return "Khách";  // Giá trị mặc định nếu không tìm thấy tên người dùng\
+        //
     }
 }

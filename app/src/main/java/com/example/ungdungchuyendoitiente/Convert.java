@@ -1,6 +1,7 @@
 package com.example.ungdungchuyendoitiente;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import androidx.core.util.Pair;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +30,7 @@ import retrofit2.Response;
 
 
 public class Convert extends AppCompatActivity implements View.OnClickListener{
+
     private TextView tvmoney1, tvmoney2, tvTigia;
     private boolean isTopSelected = true;
     private String numberTop = null;
@@ -35,7 +39,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
     private String status = null;
     private double firtnumberTop = 0, lastnumberTop = 0;
     private double firtnumberBottom = 0, lastnumberBottom = 0;
-    private ImageView imgvietnam, imgusa;
+    private ImageView imgvietnam, imgusa, imgResetPrice;
     private ImageButton btnchange;
 
 
@@ -59,31 +63,44 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
         imgvietnam = findViewById(R.id.imgvietnam);
         imgusa = findViewById(R.id.imgusa);
         tvTigia = findViewById(R.id.tvapi);
+        imgResetPrice = findViewById(R.id.imgrefresh);
 
 
-        // Khởi tạo Retrofit và API Client
-        ExchangeRateApi api = ApiClient_Price.getClient().create(ExchangeRateApi.class);
-        // Gọi API để lấy tỷ giá USD->VND
-        Call<ExchangeRateResponse> call = api.getExchangeRates("USD");
-        call.enqueue(new Callback<ExchangeRateResponse>() {
+
+        // Set default currencies and update rate on startup
+        tvmoney1.setText("USD");
+        tvmoney2.setText("VND");
+        loadPrice("USD", "VND");
+
+
+        // Sự kiện cho nút làm mới tỷ giá
+        imgResetPrice.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<ExchangeRateResponse> call, Response<ExchangeRateResponse> response) {
-                if(response.isSuccessful() && response.body() != null) {
-                    ExchangeRateResponse exchangeRateResponse = response.body();
-                    Double vndRate = exchangeRateResponse.getConversionRates().get("VND");
-                    if(vndRate!=null){
-                        tvTigia.setText("1 USD = " + vndRate + " VND");
-                    } else {
-                        tvTigia.setText("Không tìm thấy tỷ giá VND");
-                    }
+            public void onClick(View v) {
+                long currentTime = System.currentTimeMillis();
+                SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", MODE_PRIVATE);
+                long lastReffreshTime = sharedPreferences.getLong("lastRefreshTime", 0);
+                // Kiểm tra nếu đã 2p kể từ lần làm mới cuối cùng(2p = 120000ms)
+                if(currentTime - lastReffreshTime >= 120000){
+                    String fromCurrency = tvmoney1.getText().toString();
+                    String toCurrency = tvmoney2.getText().toString();
+                    loadPrice(fromCurrency, toCurrency);
+                    Toast.makeText(getApplicationContext(),"Updated successfully! " , Toast.LENGTH_SHORT).show();
+
+
+                    // Cập nhật thời gian làm mới
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong("lastRefreshTime", currentTime);
+                    editor.apply();
+                }else{
+                    long timeLeft =(120000-(currentTime-lastReffreshTime))/1000; // Thời gian còn lại tính bằng giây
+                    Toast.makeText(getApplicationContext(),"Vui lòng đợi " + timeLeft + " giây trước khi làm mới", Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ExchangeRateResponse> call, Throwable t) {
-                // to do something
             }
         });
+
+
 
 
         // Khai báo, setting và mặc định cho menu
@@ -127,7 +144,13 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
             } else if (item.getItemId() == R.id.bottom_convert) {
                 // Đang ở trang Convert, không cần làm gì
                 return true;
-            } else if (item.getItemId() == R.id.bottom_check) {
+            } else if (item.getItemId() == R.id.bottom_check){
+                Intent intent = new Intent(Convert.this, BieuDo.class);
+                startActivity(intent);
+                return true;
+            }
+
+            else if (item.getItemId() == R.id.bottom_check) {
                 return true;
             }
             return false;
@@ -161,6 +184,19 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
             View btn = findViewById(id);
             if (btn != null) btn.setOnClickListener(this);
         }
+
+
+    }
+
+    public Pair<String, String> getDataIntentChonDonViTienTe() {
+
+        // Nhận dữ liệu từ Intent
+        Intent intent = getIntent();
+        String maTienTe = intent.getStringExtra("maTienTe");  // Nhận mã tiền tệ từ Intent
+        String tenQuocGia = intent.getStringExtra("tenQuocGia"); // Nhận tên quốc gia từ Intent
+
+        // Trả về Pair chứa maTienTe và tenQuocGia
+        return new Pair<>(maTienTe, tenQuocGia);
     }
 
     @Override
@@ -173,13 +209,49 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
                 if (requestCode == REQUEST_CODE_SELECT_TOP) {
                     imgvietnam.setImageResource(imgResId);
                     tvmoney1.setText(maTienTe);
+
                 } else if (requestCode == REQUEST_CODE_SELECT_BOTTOM) {
                     imgusa.setImageResource(imgResId);
                     tvmoney2.setText(maTienTe);
                 }
+                // Cập nhật tỷ giá khi chọn đơn vị tiền tệ mới
+                String fromCurrency = tvmoney1.getText().toString();
+                String toCurrency = tvmoney2.getText().toString();
+                loadPrice(fromCurrency, toCurrency);
             }
         }
     }
+
+    // Get all rates with base USD, then calculate fromCurrency -> toCurrency
+    public void loadPrice(String fromCurrency, String toCurrency) {
+        final String from = fromCurrency.trim().toUpperCase();
+        final String to = toCurrency.trim().toUpperCase();
+        ExchangeRateApi api = ApiClient_Price.getClient().create(ExchangeRateApi.class);
+        Call<ExchangeRateResponse> call = api.getExchangeRates("USD");
+        call.enqueue(new Callback<ExchangeRateResponse>() {
+            @Override
+            public void onResponse(Call<ExchangeRateResponse> call, Response<ExchangeRateResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ExchangeRateResponse rates = response.body();
+                    Double usdToFrom = rates.getConversionRates().get(from);
+                    Double usdToTo = rates.getConversionRates().get(to);
+                    if (usdToFrom == null || usdToTo == null) {
+                        tvTigia.setText("No rate for " + from + " or " + to);
+                        return;
+                    }
+                    double rate = usdToTo / usdToFrom;
+                    tvTigia.setText(String.format("1 %s = %.4f %s", from, rate, to));
+                } else {
+                    tvTigia.setText("Error fetching rates");
+                }
+            }
+            @Override
+            public void onFailure(Call<ExchangeRateResponse> call, Throwable t) {
+                tvTigia.setText("API error");
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -293,4 +365,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
         if ("div".equals(op)) return b != 0 ? a / b : 0;
         return b;
     }
+
+
+
 }
