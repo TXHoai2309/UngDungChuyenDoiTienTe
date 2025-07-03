@@ -141,6 +141,7 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        return "Khách";  // Giá trị mặc định nếu không tìm thấy tên người dùng
+        return "Khách";  // Giá trị mặc định nếu không tìm thấy tên người dùng\
+        //
     }
 }
