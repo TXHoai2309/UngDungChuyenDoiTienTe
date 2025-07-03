@@ -1,6 +1,7 @@
 package com.example.ungdungchuyendoitiente;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -75,17 +76,27 @@ public class MainActivity extends AppCompatActivity {
                 String psw = edtPassword.getText().toString();
 
                 // Kiểm tra nhập đủ thông tin
-                if(id.isEmpty()||psw.isEmpty()){
+                if(id.isEmpty() || psw.isEmpty()){
                     Toast.makeText(MainActivity.this, "Vui lòng nhập thông tin đăng nhập", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     // Kiểm tra thông tin đăng nhập trong database
-                    if(db.checkUser(id,psw)){
+                    if(db.checkUser(id, psw)){
+                        // Lấy tên người dùng từ cơ sở dữ liệu
+                        String username = db.getUsername(id);  // Lấy tên người dùng từ cơ sở dữ liệu
+
+                        // Lưu tên người dùng vào SharedPreferences
+                        SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username", username);  // Lưu tên người dùng
+                        editor.apply();
+
                         Toast.makeText(MainActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+
+                        // Chuyển sang màn hình Convert
                         Intent intent = new Intent(MainActivity.this, Convert.class);
                         startActivity(intent);
                         finish();
-                    }
-                    else{
+                    } else {
                         Toast.makeText(MainActivity.this, "Thông tin đăng nhập không đúng", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -96,8 +107,16 @@ public class MainActivity extends AppCompatActivity {
         tvKhach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,CaiDat.class);
+                // Lưu tên người dùng là "Khách"
+                SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("username", "Khách");  // Lưu tên là "Khách"
+                editor.apply();
+
+                // Chuyển sang màn hình cài đặt
+                Intent intent = new Intent(MainActivity.this, CaiDat.class);
                 startActivity(intent);
+                finish();
             }
         });
 
