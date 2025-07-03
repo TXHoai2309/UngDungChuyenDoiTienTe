@@ -60,4 +60,8 @@ public class ThongTinCacQuocGiaADapter extends RecyclerView.Adapter<ThongTinCacQ
             hinhQuocGia = itemView.findViewById(R.id.imgAnhNuoc);
         }
     }
+    public void updateList(List<ThongTinCacQuocGia> newList) {
+        this.thongTinCacQuocGiaList = newList;
+        notifyDataSetChanged();
+    }
 }

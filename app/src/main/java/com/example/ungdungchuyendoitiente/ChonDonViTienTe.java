@@ -3,6 +3,7 @@ package com.example.ungdungchuyendoitiente;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class ChonDonViTienTe extends AppCompatActivity {
     private ThongTinCacQuocGiaADapter ChonDonViadapter;
     private List<ThongTinCacQuocGia> ThongTinCacQuocGiaList;
 
+    private EditText edtTimKiem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,19 @@ public class ChonDonViTienTe extends AppCompatActivity {
                 setResult(RESULT_OK, resultIntent);
                 finish();
             }
+        });
+        edtTimKiem = findViewById(R.id.edtTimKiem);
+        edtTimKiem.setOnEditorActionListener((v, actionId, event) -> {;
+            String query = edtTimKiem.getText().toString().trim().toLowerCase();
+            List<ThongTinCacQuocGia> filteredList = new ArrayList<>();
+            for (ThongTinCacQuocGia item : ThongTinCacQuocGiaList) {
+                if (item.getTenQuocGia().toLowerCase().contains(query) || item.getMaTienTe().toLowerCase().contains(query)) {
+                    Toast.makeText(this, "Searching: " + query, Toast.LENGTH_SHORT).show();
+                    filteredList.add(item);
+                }
+            }
+            ChonDonViadapter.updateList(filteredList);
+            return true;
         });
     }
 

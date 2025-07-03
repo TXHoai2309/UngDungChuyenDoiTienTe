@@ -42,6 +42,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
     private ImageView imgvietnam, imgusa, imgResetPrice;
     private ImageButton btnchange;
 
+
     private static final int REQUEST_CODE_SELECT_TOP = 1001;
     private static final int REQUEST_CODE_SELECT_BOTTOM = 1002;
 

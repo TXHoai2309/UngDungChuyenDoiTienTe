@@ -124,8 +124,7 @@
             android:layout_height="25dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingLeft="30dp"
-            android:text="1USD ~ 25000VND"
+            android:text=""
             android:textColor="@color/white"/>
 
         <ImageView
