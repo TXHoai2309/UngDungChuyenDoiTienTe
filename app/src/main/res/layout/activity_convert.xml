@@ -56,7 +56,7 @@
             android:layout_height="65dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/icon_vietnam" />
+            app:srcCompat="@drawable/icon_usa" />
 
         <TextView
             android:id="@+id/tvmoney1"
@@ -93,7 +93,7 @@
             android:layout_width="50dp"
             android:layout_height="65dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/icon_usa"
+            app:srcCompat="@drawable/icon_vietnam"
             android:layout_marginTop="7dp"
             />
 
