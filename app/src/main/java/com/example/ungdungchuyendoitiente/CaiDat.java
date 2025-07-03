@@ -1,8 +1,10 @@
 package com.example.ungdungchuyendoitiente;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +22,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CaiDat extends AppCompatActivity {
 
-    TextView Logout;
+    TextView Logout, txtUser;
+    ImageView imgAccount;
     Button btnGray, btnWhite;
 
     ImageView imgLogout;
@@ -34,12 +37,23 @@ public class CaiDat extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        txtUser = findViewById(R.id.txtUser);
+        imgAccount = findViewById(R.id.imgAccount);
         btnWhite = findViewById(R.id.btnWhite);
         btnGray = findViewById(R.id.btnGrey);
         Logout = findViewById(R.id.txtLogout);
         imgLogout = findViewById(R.id.imgLogout);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_setting);
+
+        // Hiển thị tên người dùng
+        SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "Unknown User");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Unknown User"
+
+        TextView txtUser = findViewById(R.id.txtUser);
+        txtUser.setText(username);  // Hiển thị tên người dùng trong TextView
+        //
+
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,5 +86,23 @@ public class CaiDat extends AppCompatActivity {
         });
         // Hết phần menu
 
+        // Chuyển sang Hồ sơ
+        txtUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lấy userId hoặc username từ SharedPreferences
+                // Lấy userId từ SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                String userId = sharedPreferences.getString("username", "Unknown User");
+
+                // Kiểm tra userId có hợp lệ không
+                Log.d("CaiDatActivity", "userId: " + userId);
+
+                // Chuyển sang ProfileActivity và truyền userId
+                Intent intent = new Intent(CaiDat.this, Profile.class);
+                intent.putExtra("userId", userId);  // Truyền userId vào ProfileActivity
+                startActivity(intent);
+            }
+        });
     }
 }

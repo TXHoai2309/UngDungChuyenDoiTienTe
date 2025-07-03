@@ -43,7 +43,9 @@
     <activity
         android:name=".DangKy"
         android:exported="false" />
-
+        <activity
+            android:name=".Profile"
+            android:exported="false" />
     <!-- MainActivity sẽ được mở sau SplashActivity -->
     <activity
         android:name=".MainActivity"
