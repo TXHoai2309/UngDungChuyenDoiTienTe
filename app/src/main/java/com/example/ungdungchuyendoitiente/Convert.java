@@ -144,7 +144,13 @@ public class Convert extends AppCompatActivity implements View.OnClickListener{
             } else if (item.getItemId() == R.id.bottom_convert) {
                 // Đang ở trang Convert, không cần làm gì
                 return true;
-            } else if (item.getItemId() == R.id.bottom_check) {
+            } else if (item.getItemId() == R.id.bottom_check){
+                Intent intent = new Intent(Convert.this, BieuDo.class);
+                startActivity(intent);
+                return true;
+            }
+
+            else if (item.getItemId() == R.id.bottom_check) {
                 return true;
             }
             return false;

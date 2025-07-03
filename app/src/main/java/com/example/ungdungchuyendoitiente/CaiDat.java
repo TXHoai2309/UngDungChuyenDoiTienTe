@@ -79,7 +79,10 @@ public class CaiDat extends AppCompatActivity {
                 Intent intent = new Intent(CaiDat.this, Convert.class);
                 startActivity(intent);
                 return true;
-            } else if (item.getItemId() == R.id.bottom_check) {
+            }
+            else if (item.getItemId() == R.id.bottom_check) {
+                Intent intent = new Intent(CaiDat.this, BieuDo.class);
+                startActivity(intent);
                 return true;
             }
             return false;
