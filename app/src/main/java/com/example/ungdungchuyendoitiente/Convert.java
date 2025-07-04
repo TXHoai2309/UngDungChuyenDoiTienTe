@@ -94,8 +94,9 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             imgvietnam.setImageDrawable(imgusa.getDrawable());
             imgusa.setImageDrawable(tempImage);
 
-            String tempText = tvmoney1.getText().toString();
-            tvmoney1.setText(tvmoney2.getText().toString());
+            // Đổi giá trị tiền và reset về 0
+            String tempText = "0";  // Giá trị reset về 0
+            tvmoney1.setText(tempText);
             tvmoney2.setText(tempText);
 
             String tempCountry = tenQuocGiaTop;
@@ -135,16 +136,9 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
         tvmoney1.setOnClickListener(v -> {
             isTopSelected = true;
             tvmoney1.setBackgroundResource(R.drawable.selected_border);
-            tvmoney2.setBackgroundResource(android.R.color.transparent);
-        });
-        tvmoney2.setOnClickListener(v -> {
-            isTopSelected = false;
-            tvmoney2.setBackgroundResource(R.drawable.selected_border);
-            tvmoney1.setBackgroundResource(android.R.color.transparent);
         });
 
         tvmoney1.setBackgroundResource(R.drawable.selected_border);
-        tvmoney2.setBackgroundResource(android.R.color.transparent);
 
         int[] buttonIds = {
                 R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,

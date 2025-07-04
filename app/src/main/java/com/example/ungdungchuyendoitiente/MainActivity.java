@@ -76,23 +76,29 @@ public class MainActivity extends AppCompatActivity {
                 String psw = edtPassword.getText().toString();
 
                 // Kiểm tra nhập đủ thông tin
-                if(id.isEmpty() || psw.isEmpty()){
+                if (id.isEmpty() || psw.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Vui lòng nhập thông tin đăng nhập", Toast.LENGTH_SHORT).show();
                 } else {
                     // Kiểm tra thông tin đăng nhập trong database
-                    if(db.checkUser(id, psw)){
-                        // Lấy tên người dùng từ cơ sở dữ liệu
-                        String username = db.getUsername(id);  // Lấy tên người dùng từ cơ sở dữ liệu
+                    if (db.checkUser(id, psw)) {
+                        // Lấy toàn bộ thông tin người dùng từ cơ sở dữ liệu
+                        ThongTinDangKy userInfo = db.getUserInfo(id);
 
-                        // Lưu tên người dùng vào SharedPreferences
+                        // Lưu toàn bộ thông tin người dùng vào SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("username", username);  // Lưu tên người dùng
+                        editor.putString("username", userInfo.getHoTen());  // Lưu họ tên vào SharedPreferences thay vì "Khách"
+                        editor.putString("uid", userInfo.getUid());
+                        editor.putString("hoten", userInfo.getHoTen());
+                        editor.putString("matkhau", userInfo.getPsw());
+                        editor.putString("email", userInfo.getEmail());
+                        editor.putString("sdt", userInfo.getSdt());
                         editor.apply();
 
+                        // Hiển thị thông báo đăng nhập thành công
                         Toast.makeText(MainActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
-                        // Chuyển sang màn hình Convert
+                        // Chuyển sang màn hình tiếp theo
                         Intent intent = new Intent(MainActivity.this, Convert.class);
                         startActivity(intent);
                         finish();

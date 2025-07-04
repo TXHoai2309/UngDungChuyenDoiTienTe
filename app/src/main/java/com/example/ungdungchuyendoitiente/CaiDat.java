@@ -48,10 +48,8 @@ public class CaiDat extends AppCompatActivity {
 
         // Hiển thị tên người dùng
         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "Unknown User");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Unknown User"
-
-        TextView txtUser = findViewById(R.id.txtUser);
-        txtUser.setText(username);  // Hiển thị tên người dùng trong TextView
+        String username = sharedPreferences.getString("username", "Khách");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Khách"
+        txtUser.setText(username);
         //
 
         Logout.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +96,6 @@ public class CaiDat extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
                 String userId = sharedPreferences.getString("username", "Unknown User");
 
-                // Kiểm tra userId có hợp lệ không
-                Log.d("CaiDatActivity", "userId: " + userId);
 
                 // Chuyển sang ProfileActivity và truyền userId
                 Intent intent = new Intent(CaiDat.this, Profile.class);
