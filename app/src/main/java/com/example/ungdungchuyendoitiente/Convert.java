@@ -260,8 +260,8 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
 
 
     public String formatResult(double num) {
-        // Định dạng số với phân cách hàng nghìn
-        DecimalFormat formatter = new DecimalFormat("###,###");
+        // Định dạng số với phân cách hàng nghìn bằng dấu .
+        DecimalFormat formatter = new DecimalFormat("###.###");
         return formatter.format(num);  // Trả về số đã định dạng
     }
 
