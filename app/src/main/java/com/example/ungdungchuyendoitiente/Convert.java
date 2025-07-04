@@ -28,7 +28,7 @@ import retrofit2.Response;
 
 public class Convert extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvmoney1, tvmoney2, tvTigia;
+    private TextView tvmoney1, tvmoney2, tvTigia, tvapi;
     private boolean isTopSelected = true;
     private String numberTop = "";
     private String numberBottom = "";
@@ -127,11 +127,26 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                 return true;
             } else if (item.getItemId() == R.id.bottom_check) {
                 Intent intent = new Intent(Convert.this, BieuDo.class);
+                // Lấy mã tiền tệ từ quốc gia đang chọn
+                String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
+                String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
+                intent.putExtra("DulieuBieuDo", fromCurrency + "/" + toCurrency);
                 startActivity(intent);
                 return true;
             }
             return false;
         });
+        tvTigia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
+                String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
+                Intent intent = new Intent(Convert.this, BieuDo.class);
+                intent.putExtra("DulieuBieuDo", fromCurrency + "/" + toCurrency);
+                startActivity(intent);
+            }
+        });
+
 
         tvmoney1.setOnClickListener(v -> {
             isTopSelected = true;
