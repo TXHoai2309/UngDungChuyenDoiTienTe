@@ -76,11 +76,7 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         try (Cursor cursor = db.rawQuery(query, new String[]{userId})) {
             if (cursor != null && cursor.moveToFirst()) {
                 // Lấy thông tin người dùng từ cursor mà không cần getColumnIndex()
-                String uid = cursor.getString(0);      // Cột 0 là COL_ID
-                String name = cursor.getString(1);     // Cột 1 là COL_NAME
-                String psw = cursor.getString(2);      // Cột 2 là COL_PSW
-                String email = cursor.getString(3);    // Cột 3 là COL_EMAIL
-                String sdt = cursor.getString(4);      // Cột 4 là COL_SDT
+
 
                 // Trả về thông tin người dùng
                 return new ThongTinDangKy(uid, name, psw, email, sdt);
