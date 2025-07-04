@@ -50,7 +50,7 @@ public class BieuDo extends AppCompatActivity {
         // Đọc dữ liệu từ file CSV và hiển thị biểu đồ
         readCSVAndDisplayChart();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_check);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_news);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.bottom_setting) {
@@ -58,15 +58,11 @@ public class BieuDo extends AppCompatActivity {
                 Intent intent = new Intent(BieuDo.this, CaiDat.class);
                 startActivity(intent);
                 return true;
-            } else if (item.getItemId() == R.id.bottom_check) {
+            } else if (item.getItemId() == R.id.bottom_news) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_convert){
                 Intent intent = new Intent(BieuDo.this, Convert.class);
                 startActivity(intent);
-                return true;
-            }
-
-            else if (item.getItemId() == R.id.bottom_check) {
                 return true;
             }
             return false;

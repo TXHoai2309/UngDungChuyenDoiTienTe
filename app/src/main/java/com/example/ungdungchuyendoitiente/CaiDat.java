@@ -55,6 +55,12 @@ public class CaiDat extends AppCompatActivity {
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Xóa toàn bộ dữ liệu trong SharedPreferences khi Logout
+                SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();  // Xóa tất cả dữ liệu trong SharedPreferences
+                editor.apply();  // Áp dụng thay đổi
+
                 Intent intent = new Intent(CaiDat.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -63,6 +69,12 @@ public class CaiDat extends AppCompatActivity {
         imgLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Xóa toàn bộ dữ liệu trong SharedPreferences khi Logout
+                SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();  // Xóa tất cả dữ liệu trong SharedPreferences
+                editor.apply();  // Áp dụng thay đổi
+
                 Intent intent = new Intent(CaiDat.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -78,7 +90,7 @@ public class CaiDat extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
-            else if (item.getItemId() == R.id.bottom_check) {
+            else if (item.getItemId() == R.id.bottom_news) {
                 Intent intent = new Intent(CaiDat.this, BieuDo.class);
                 startActivity(intent);
                 return true;

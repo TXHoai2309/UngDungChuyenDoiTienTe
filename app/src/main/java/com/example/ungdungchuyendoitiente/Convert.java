@@ -125,7 +125,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                 return true;
             } else if (item.getItemId() == R.id.bottom_convert) {
                 return true;
-            } else if (item.getItemId() == R.id.bottom_check) {
+            } else if (item.getItemId() == R.id.bottom_news) {
                 Intent intent = new Intent(Convert.this, BieuDo.class);
                 startActivity(intent);
                 return true;
