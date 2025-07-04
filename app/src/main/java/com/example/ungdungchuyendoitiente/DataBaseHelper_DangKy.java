@@ -103,6 +103,7 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_PSW)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_EMAIL)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_SDT))
+                        //
                 );
                 thongTinDangKyList.add(thongTinDangKy);
             }while(cursor.moveToNext());
@@ -110,7 +111,6 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         cursor.close();
         return  thongTinDangKyList;
     }
-
     public int updateThongTinDangKy(ThongTinDangKy thongTinDangKy){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
