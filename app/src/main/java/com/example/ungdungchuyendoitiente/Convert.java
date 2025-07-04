@@ -282,9 +282,11 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                     numberTop = numberTop.substring(0, numberTop.length() - 1);
                     tvmoney1.setText(numberTop.isEmpty() ? "0" : numberTop);
                 }
-            } else if (id == R.id.btndot) {
-                if (!numberTop.contains(",")) {
-                    numberTop += numberTop.isEmpty() ? "0," : ",";
+            }else if (id == R.id.btndot) {
+                String[] parts = numberTop.split("[" + "\\+\\-\\*/" + "]");
+                String currentOperand = parts.length > 1 ? parts[1].trim() : parts[0];
+                if (!currentOperand.contains(",")) {
+                    numberTop += currentOperand.isEmpty() ? "0," : ",";
                     tvmoney1.setText(numberTop);
                 }
             } else if (id == R.id.btnadd || id == R.id.btnsub || id == R.id.btnmul || id == R.id.btndiv) {
