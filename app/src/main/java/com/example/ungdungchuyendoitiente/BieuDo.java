@@ -33,6 +33,7 @@ public class BieuDo extends AppCompatActivity {
 
 
     private CandleStickChart candleStickChart ; // Biểu đồ nến
+    private String DulieuBieuDo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +78,14 @@ public class BieuDo extends AppCompatActivity {
             String[] row;
             ArrayList<CandleEntry> entries = new ArrayList<>();
             int count = 0;  // Chỉ số đếm để lọc lấy mỗi 10 dòng 1
+            DulieuBieuDo = getIntent().getStringExtra("DulieuBieuDo");
 
             while ((row = csvReader.readNext()) != null) {
                 if (row.length > 5) {
                     String slug = row[0];  // Cặp tiền tệ (ví dụ: GBP/EGP)
 
                     // Chỉ lấy dữ liệu cho cặp USD/VND
-                    if (slug.equals("USD/VND") && count % 10 == 0) {
+                    if (slug.equals(DulieuBieuDo) && count % 1 == 0) {
                         try {
                             float open = parseFloatSafe(row[2]);
                             float high = parseFloatSafe(row[3]);
@@ -99,9 +101,10 @@ public class BieuDo extends AppCompatActivity {
                 }
             }
 
+
             if (entries.size() > 0) {
                 // Tạo biểu đồ cho tỷ giá USD/VND
-                CandleDataSet dataSet = new CandleDataSet(entries, "USD/VND");
+                CandleDataSet dataSet = new CandleDataSet(entries, DulieuBieuDo);
 
                 // Nến giảm (red)
                 dataSet.setDecreasingColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
@@ -130,7 +133,7 @@ public class BieuDo extends AppCompatActivity {
                 // Lấy đối tượng trục X
                 XAxis xAxis = candleStickChart.getXAxis();
 
-                    // Tắt việc hiển thị nhãn (số) trên trục X
+                // Tắt việc hiển thị nhãn (số) trên trục X
                 xAxis.setDrawLabels(false);
 
 
@@ -160,6 +163,7 @@ public class BieuDo extends AppCompatActivity {
             e.printStackTrace();
             Log.e("CSV Error", "Error reading CSV file", e);
         }
+
     }
     // Hàm phụ để xử lý chuyển đổi chuỗi thành số, tránh lỗi NumberFormatException
     private float parseFloatSafe(String value) {
