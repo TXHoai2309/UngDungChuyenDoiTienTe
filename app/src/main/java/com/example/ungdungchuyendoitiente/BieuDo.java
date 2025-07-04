@@ -118,17 +118,24 @@ public class BieuDo extends AppCompatActivity {
                 // Nến không đổi (gray)
                 dataSet.setNeutralColor(ContextCompat.getColor(this, android.R.color.holo_orange_light));
 
-                // Màu bóng nến (shadow)
-                dataSet.setShadowColor(ContextCompat.getColor(this, android.R.color.holo_blue_light));
 
                 // Màu chữ hiển thị giá trị trên nến (black)
                 dataSet.setValueTextColor(ContextCompat.getColor(this, android.R.color.black));
 
+                // Tắt việc hiển thị giá trị trên các nến
+                dataSet.setDrawValues(false);  // Tắt số trên các nến
+
                 // Tùy chỉnh lại các trục (x, y) cho đẹp mắt
                 dataSet.setValueTextSize(10f);
-                dataSet.setFormLineWidth(2f);
+                dataSet.setFormLineWidth(1f);
                 dataSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
                 dataSet.setFormSize(15f);
+
+                // Lấy đối tượng trục X
+                XAxis xAxis = candleStickChart.getXAxis();
+
+                    // Tắt việc hiển thị nhãn (số) trên trục X
+                xAxis.setDrawLabels(false);
 
 
                 dataSet.setValueTextColor(ContextCompat.getColor(this, android.R.color.holo_orange_dark));
@@ -137,8 +144,6 @@ public class BieuDo extends AppCompatActivity {
                 candleStickChart.getAxisLeft().setTextColor(ContextCompat.getColor(this, android.R.color.white));
                 candleStickChart.getAxisRight().setTextColor(ContextCompat.getColor(this, android.R.color.white));
 
-                candleStickChart.setExtraOffsets(20f, 20f, 20f, 20f); // Điều chỉnh khoảng cách xung quanh biểu đồ
-                // Lấy đối tượng trục Y
 
 
                 // Tạo và hiển thị dữ liệu cho biểu đồ
@@ -148,7 +153,7 @@ public class BieuDo extends AppCompatActivity {
                 // Cho phép zoom và kéo
                 candleStickChart.setDragEnabled(true);  // Cho phép kéo biểu đồ
                 candleStickChart.setScaleEnabled(true); // Cho phép zoom
-                candleStickChart.setVisibleXRangeMaximum(5);  // Hiển thị tối đa 10 ngày trên màn hình
+                candleStickChart.setVisibleXRangeMaximum(35);  // Hiển thị tối đa 10 ngày trên màn hình
 
                 candleStickChart.invalidate();  // Làm mới biểu đồ
             } else {

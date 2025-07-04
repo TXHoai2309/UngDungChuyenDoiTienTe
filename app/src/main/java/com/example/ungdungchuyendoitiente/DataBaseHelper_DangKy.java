@@ -126,6 +126,7 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         boolean isValid = cursor.moveToFirst();
         cursor.close();
         return isValid;
+        //
 
     }
     // Lấy tên người dùng
