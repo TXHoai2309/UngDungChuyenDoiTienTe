@@ -18,6 +18,7 @@
         android:background="#383636"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/PopupMenuStyle"
         />
 
     <androidx.recyclerview.widget.RecyclerView
