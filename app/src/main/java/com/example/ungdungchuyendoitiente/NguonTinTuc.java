@@ -6,7 +6,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Response;
+
 public class NguonTinTuc {
+    private static final String API_KEY = "d0aeb270d25b4018ad66b6e1b73f9ff0";
+
     public static List<NewsArticle> fetchVietNamBiz() {
         List<NewsArticle> articles = new ArrayList<>();
         try {
@@ -74,6 +79,29 @@ public class NguonTinTuc {
                 // Chỉ add nếu có đủ dữ liệu
                 if (!title.isEmpty() && !link.isEmpty() && !imgUrl.isEmpty()) {
                     articles.add(new NewsArticle(title, desc, pubDate, imgUrl, link));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
+    public static List<NewsArticle> apiNews_en() {
+        List<NewsArticle> articles = new ArrayList<>();
+        try {
+            NewsApiService apiService = ApiClient_News_en.getClient().create(NewsApiService.class);
+            Response<NewsApiResponse> response = apiService.getNews("economy", API_KEY).execute();
+
+            if (response.isSuccessful() && response.body() != null) {
+                List<NewsApiResponse.Article> apiArticles = response.body().getArticles();
+                for (NewsApiResponse.Article art : apiArticles) {
+                    articles.add(new NewsArticle(
+                            art.getTitle(),
+                            art.getDescription(),
+                            art.getPublishedAt(),
+                            art.getUrlToImage(),
+                            art.getUrl()
+                    ));
                 }
             }
         } catch (Exception e) {
