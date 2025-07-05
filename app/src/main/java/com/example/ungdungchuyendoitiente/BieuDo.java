@@ -51,7 +51,7 @@ public class BieuDo extends AppCompatActivity {
 
         // Menu dưới
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_news);
+        //bottomNavigationView.setSelectedItemId(R.id.bottom_news);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.bottom_setting) {
