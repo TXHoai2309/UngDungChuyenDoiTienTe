@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,7 +20,24 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +77,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             return insets;
         });
 
+
         tvmoney1 = findViewById(R.id.tvmoney1);
         tvmoney2 = findViewById(R.id.tvmoney2);
         btnchange = findViewById(R.id.btnchange);
@@ -73,7 +92,6 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             long currentTime = System.currentTimeMillis();
             SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", MODE_PRIVATE);
             long lastRefreshTime = sharedPreferences.getLong("lastRefreshTime", 0);
-            if (currentTime - lastRefreshTime >= 120000) {
                 String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
                 String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
                 loadPrice(fromCurrency, toCurrency);
@@ -81,10 +99,9 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putLong("lastRefreshTime", currentTime);
                 editor.apply();
-            } else {
-                long timeLeft = (120000 - (currentTime - lastRefreshTime)) / 1000;
-                Toast.makeText(getApplicationContext(), "Vui lòng đợi " + timeLeft + " giây trước khi làm mới", Toast.LENGTH_SHORT).show();
-            }
+                updateDataFromApi(fromCurrency, toCurrency);
+                CsvUtils.sortCsvFile(this, fromCurrency + "/" + toCurrency);
+
         });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
@@ -348,4 +365,69 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             }
         }
     }
+    public void updateDataFromApi(String fromSymbol, String toSymbol) {
+        // Tạo URL
+        String apiUrl = "https://www.alphavantage.co/query?function=FX_DAILY&from_symbol="
+                + fromSymbol + "&to_symbol=" + toSymbol
+                + "&outputsize=full&apikey=YOUR_API_KEY";
+
+        new Thread(() -> {
+            try {
+                URL url = new URL(apiUrl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+
+                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder result = new StringBuilder();
+                String line;
+                while ((line = rd.readLine()) != null) {
+                    result.append(line);
+                }
+                rd.close();
+
+                JSONObject obj = new JSONObject(result.toString());
+                JSONObject timeSeries = obj.getJSONObject("Time Series FX (Daily)");
+
+                String slug = fromSymbol + "/" + toSymbol;
+                String currency = toSymbol;
+                Set<String> existingDates = CsvUtils.getExistingDates(this, slug);
+
+                int addedCount = 0;
+                // 1. Lấy toàn bộ ngày
+                List<String> dateList = new ArrayList<>();
+                Iterator<String> it = timeSeries.keys();
+                while (it.hasNext()) {
+                    dateList.add(it.next());
+                }
+
+// 2. Sắp xếp ngày tăng dần (cũ -> mới)
+                Collections.sort(dateList);
+
+// 3. Duyệt danh sách đã sắp
+                for (String date : dateList) {
+                    if (!existingDates.contains(date)) {
+                        JSONObject dayData = timeSeries.getJSONObject(date);
+                        String open = dayData.getString("1. open");
+                        String high = dayData.getString("2. high");
+                        String low = dayData.getString("3. low");
+                        String close = dayData.getString("4. close");
+
+                        String dateForCsv = CsvUtils.convertToMdyyyy(date);
+                        String lineCsv = slug + "," + dateForCsv + "," + open + "," + high + "," + low + "," + close + "," + currency;
+                        CsvUtils.appendLine(this, lineCsv);
+                        addedCount++;
+                    }
+                }
+
+
+                int finalAddedCount = addedCount;
+                runOnUiThread(() -> Toast.makeText(this, "Đã thêm " + finalAddedCount + " bản ghi mới.", Toast.LENGTH_SHORT).show());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(this, "Lỗi tải dữ liệu.", Toast.LENGTH_SHORT).show());
+            }
+        }).start();
+    }
+
 }
