@@ -91,7 +91,7 @@ public class CaiDat extends AppCompatActivity {
                 return true;
             }
             else if (item.getItemId() == R.id.bottom_news) {
-                Intent intent = new Intent(CaiDat.this, BieuDo.class);
+                Intent intent = new Intent(CaiDat.this, NewsActivity.class);
                 startActivity(intent);
                 return true;
             }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -126,11 +127,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             } else if (item.getItemId() == R.id.bottom_convert) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_news) {
-                Intent intent = new Intent(Convert.this, BieuDo.class);
-                // Lấy mã tiền tệ từ quốc gia đang chọn
-                String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
-                String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
-                intent.putExtra("DulieuBieuDo", fromCurrency + "/" + toCurrency);
+                Intent intent = new Intent(Convert.this, NewsActivity.class);
                 startActivity(intent);
                 return true;
             }
