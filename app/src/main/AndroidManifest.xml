@@ -41,6 +41,9 @@
             android:name=".CaiDat"
             android:exported="false" />
         <activity
+            android:name=".NewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".DangKy"
             android:exported="false" />
         <activity

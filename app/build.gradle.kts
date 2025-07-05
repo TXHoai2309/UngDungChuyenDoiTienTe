@@ -48,6 +48,9 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     // Thêm thư viện OkHttp nếu bạn cần logging cho các request/response
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    // Thư viện cho tin tức
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
+    implementation ("org.jsoup:jsoup:1.14.3")
 
     implementation ("com.opencsv:opencsv:5.5.2")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
