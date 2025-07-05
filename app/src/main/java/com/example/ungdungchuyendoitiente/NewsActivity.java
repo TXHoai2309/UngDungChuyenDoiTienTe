@@ -52,19 +52,22 @@ public class NewsActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        // Set up Toolbar menu click
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.bottom_trongnuoc) {
+                loadDomesticNews();
+                return true;
+            } else if (item.getItemId() == R.id.bottom_quocte) {
+                loadApiNews();
+                return true;
+            }
+            return false;
+        });
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.bottom_trongnuoc) {
-            loadDomesticNews();
-            return true;
-        }
-        // Nếu muốn xử lý thêm "Tin Quốc Tế", thêm else if ở đây
-        return super.onOptionsItemSelected(item);
-    }
     private void loadDomesticNews() {
         new Thread(() -> {
             List<NewsArticle> allNews = new ArrayList<>();
@@ -73,6 +76,16 @@ public class NewsActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 newsAdapter = new NewsAdapter(allNews);
+                recyclerView.setAdapter(newsAdapter);
+            });
+        }).start();
+    }
+
+    private void loadApiNews() {
+        new Thread(() -> {
+            List<NewsArticle> apiNews = NguonTinTuc.apiNews_en();
+            runOnUiThread(() -> {
+                newsAdapter = new NewsAdapter(apiNews);
                 recyclerView.setAdapter(newsAdapter);
             });
         }).start();
