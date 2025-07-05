@@ -246,7 +246,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
-
+    //
     private void convertCurrency(boolean fromTop) {
         //String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
         //String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
