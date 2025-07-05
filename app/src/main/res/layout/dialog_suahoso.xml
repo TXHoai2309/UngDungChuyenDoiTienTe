@@ -11,16 +11,16 @@
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Họ tên"
-        android:textColor="@color/white"/>
+        android:text="Name"
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/edtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Họ tên"
-        android:textColor="#FFFFFF"
-        android:background="#A9A9A9"/>
+        android:background="#A9A9A9"
+        android:hint="UserName"
+        android:textColor="#FFFFFF" />
 
     <!-- Trường Email -->
     <TextView
@@ -44,33 +44,33 @@
         android:id="@+id/textView32"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Số điện thoại"
-        android:textColor="@color/white"/>
+        android:text="Phone Number"
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/edtPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Số điện thoại"
+        android:background="#A9A9A9"
+        android:hint="Phone Number"
         android:inputType="phone"
-        android:textColor="#FFFFFF"
-        android:background="#A9A9A9"/>
+        android:textColor="#FFFFFF" />
 
     <!-- Trường Mật khẩu (cho phép sửa mật khẩu) -->
     <TextView
         android:id="@+id/textView39"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mật khẩu"
-        android:textColor="@color/white"/>
+        android:text="Password"
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mật khẩu"
+        android:background="#A9A9A9"
+        android:hint="Password"
         android:inputType="textPassword"
-        android:textColor="#FFFFFF"
-        android:background="#A9A9A9"/>
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

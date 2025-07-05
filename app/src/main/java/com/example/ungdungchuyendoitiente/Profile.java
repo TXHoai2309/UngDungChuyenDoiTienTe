@@ -47,7 +47,7 @@ public class Profile extends AppCompatActivity {
 
         // Lấy thông tin người dùng từ SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
-        String userId = sharedPreferences.getString("uid", "Không tìm thấy User");
+        String userId = sharedPreferences.getString("uid", "User not found");
 
         // Hiển thị thông tin người dùng
         ThongTinDangKy userInfo = db.getUserInfo(userId);
@@ -74,13 +74,13 @@ public class Profile extends AppCompatActivity {
         // Lấy thông tin người dùng từ cơ sở dữ liệu
         ThongTinDangKy userInfo = db.getUserInfo(userId);
         if (userInfo == null) {
-            Toast.makeText(this, "Không tìm thấy thông tin người dùng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Tạo dialog sửa thông tin người dùng
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Sửa thông tin");
+        builder.setTitle("Edit Profile");
 
         // Set up các trường nhập vào (EditText) để sửa thông tin
         View view = getLayoutInflater().inflate(R.layout.dialog_suahoso, null);
@@ -98,7 +98,7 @@ public class Profile extends AppCompatActivity {
         builder.setView(view);
 
         // Set up nút OK để lưu thay đổi
-        builder.setPositiveButton("Lưu", (dialog, which) -> {
+        builder.setPositiveButton("Save", (dialog, which) -> {
             // Lấy dữ liệu từ các EditText
             String newName = edtName.getText().toString();
             String newEmail = edtEmail.getText().toString();
@@ -107,7 +107,7 @@ public class Profile extends AppCompatActivity {
 
             // Kiểm tra dữ liệu nhập vào
             if (newName.isEmpty() || newEmail.isEmpty() || newPhone.isEmpty() || newPassword.isEmpty()) {
-                Toast.makeText(Profile.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Profile.this, "Please enter complete information", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -128,7 +128,7 @@ public class Profile extends AppCompatActivity {
             editor.apply();
 
             // Hiển thị thông báo thành công
-            Toast.makeText(Profile.this, "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Profile.this, "Update Successful!", Toast.LENGTH_SHORT).show();
 
             // Cập nhật lại các TextView trên màn hình Hồ sơ
             tvHoten2.setText(newName);
@@ -137,7 +137,7 @@ public class Profile extends AppCompatActivity {
         });
 
         // Set up nút Cancel để thoát dialog mà không làm thay đổi
-        builder.setNegativeButton("Hủy", null);
+        builder.setNegativeButton("Cancel", null);
 
         // Hiển thị Dialog
         builder.show();
@@ -146,9 +146,9 @@ public class Profile extends AppCompatActivity {
     // Hàm hiển thị Dialog xóa tài khoản
     private void showDeleteDialog(final String userId) {
         new AlertDialog.Builder(this)
-                .setTitle("Xóa tài khoản")
-                .setMessage("Bạn có chắc chắn muốn xóa tài khoản này?")
-                .setPositiveButton("Xóa", (dialog, which) -> {
+                .setTitle("Delete account")
+                .setMessage("Are you sure you want to delete this account?")
+                .setPositiveButton("Delete", (dialog, which) -> {
                     // Xóa tài khoản trong cơ sở dữ liệu
                     int result = db.deleteUser(userId);
                     if (result > 0) {
@@ -158,17 +158,17 @@ public class Profile extends AppCompatActivity {
                         editor.clear();
                         editor.apply();
 
-                        Toast.makeText(Profile.this, "Xóa tài khoản thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Profile.this, "Delete Successful!", Toast.LENGTH_SHORT).show();
 
                         // Quay lại màn hình Đăng nhập (MainActivity)
                         Intent intent = new Intent(Profile.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(Profile.this, "Xóa tài khoản thất bại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Profile.this, "Delete Failed", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("Hủy", null)
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 }

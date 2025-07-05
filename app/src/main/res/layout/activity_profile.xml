@@ -26,10 +26,10 @@
             android:id="@+id/tvHoso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
-            android:text="Hồ sơ"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:text="Profile"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -59,11 +59,11 @@
         android:id="@+id/tvHoten1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Họ tên"
-        android:textSize="15sp"
-        android:textColor="#B4AEAE"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"
+        android:text="User Name"
+        android:textColor="#B4AEAE"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tvHoten2"
@@ -79,11 +79,11 @@
         android:id="@+id/tvMatkhau1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mật khẩu"
-        android:textSize="15sp"
-        android:textColor="#B4AEAE"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:text="Password"
+        android:textColor="#B4AEAE"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tvMatkhau2"
@@ -119,11 +119,11 @@
         android:id="@+id/tvSDT1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Số điện thoại"
-        android:textSize="15sp"
-        android:textColor="#B4AEAE"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:text="Phone Number"
+        android:textColor="#B4AEAE"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tvSDT2"
@@ -146,24 +146,24 @@
             android:id="@+id/btnSua"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="30dp"
+            android:layout_weight="1"
             android:background="@drawable/custom_btndangnhap"
-            app:backgroundTint="@null"
-            android:text="Sửa"
-            android:textColor="#5F5959"/>
+            android:text="Edit"
+            android:textColor="#5F5959"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btnXoa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="40dp"
+            android:layout_weight="1"
             android:background="@drawable/custom_btndangnhap"
-            app:backgroundTint="@null"
-            android:text="Xóa"
-            android:textColor="#5F5959"/>
+            android:text="Delete"
+            android:textColor="#5F5959"
+            app:backgroundTint="@null" />
     </LinearLayout>
 </LinearLayout>
