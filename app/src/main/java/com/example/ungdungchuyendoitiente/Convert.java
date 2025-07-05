@@ -103,9 +103,9 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             tenQuocGiaTop = tenQuocGiaBottom;
             tenQuocGiaBottom = tempCountry;
 
-            String tempNumber = numberTop;
-            numberTop = numberBottom;
-            numberBottom = tempNumber;
+            // Đặt lại số tiền về mặc định
+            numberTop = "";  // Reset numberTop về trống
+            numberBottom = "";  // Reset numberBottom về trống
         });
 
         imgvietnam.setOnClickListener(v -> {
@@ -125,7 +125,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                 return true;
             } else if (item.getItemId() == R.id.bottom_convert) {
                 return true;
-            } else if (item.getItemId() == R.id.bottom_check) {
+            } else if (item.getItemId() == R.id.bottom_news) {
                 Intent intent = new Intent(Convert.this, BieuDo.class);
                 // Lấy mã tiền tệ từ quốc gia đang chọn
                 String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
@@ -275,8 +275,8 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
 
 
     public String formatResult(double num) {
-        // Định dạng số với phân cách hàng nghìn
-        DecimalFormat formatter = new DecimalFormat("###,###");
+        // Định dạng số với phân cách hàng nghìn bằng dấu .
+        DecimalFormat formatter = new DecimalFormat("###.###");
         return formatter.format(num);  // Trả về số đã định dạng
     }
 
@@ -297,9 +297,11 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                     numberTop = numberTop.substring(0, numberTop.length() - 1);
                     tvmoney1.setText(numberTop.isEmpty() ? "0" : numberTop);
                 }
-            } else if (id == R.id.btndot) {
-                if (!numberTop.contains(",")) {
-                    numberTop += numberTop.isEmpty() ? "0," : ",";
+            }else if (id == R.id.btndot) {
+                String[] parts = numberTop.split("[" + "\\+\\-\\*/" + "]");
+                String currentOperand = parts.length > 1 ? parts[1].trim() : parts[0];
+                if (!currentOperand.contains(",")) {
+                    numberTop += currentOperand.isEmpty() ? "0," : ",";
                     tvmoney1.setText(numberTop);
                 }
             } else if (id == R.id.btnadd || id == R.id.btnsub || id == R.id.btnmul || id == R.id.btndiv) {
@@ -346,69 +348,6 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                 numberTop += value;
                 tvmoney1.setText(numberTop);
                 if (!isOperatorPressed) convertCurrency(true);
-            }
-        } else {
-            if (id == R.id.btnc) {
-                numberBottom = "";
-                tvmoney2.setText("0");
-                numberTop = "";
-                tvmoney1.setText("0");
-                currentOperator = "";
-                isOperatorPressed = false;
-            } else if (id == R.id.btne) {
-                if (!numberBottom.isEmpty()) {
-                    numberBottom = numberBottom.substring(0, numberBottom.length() - 1);
-                    tvmoney2.setText(numberBottom.isEmpty() ? "0" : numberBottom);
-                }
-            } else if (id == R.id.btndot) {
-                if (!numberBottom.contains(",")) {
-                    numberBottom += numberBottom.isEmpty() ? "0," : ",";
-                    tvmoney2.setText(numberBottom);
-                }
-            } else if (id == R.id.btnadd || id == R.id.btnsub || id == R.id.btnmul || id == R.id.btndiv) {
-                if (!numberBottom.isEmpty() && !isOperatorPressed) {
-                    operandBottom = parseNumber(numberBottom);
-                    isOperatorPressed = true;
-
-                    if (id == R.id.btnadd) {
-                        currentOperator = "+";
-                    } else if (id == R.id.btnsub) {
-                        currentOperator = "-";
-                    } else if (id == R.id.btnmul) {
-                        currentOperator = "*";
-                    } else if (id == R.id.btndiv) {
-                        currentOperator = "/";
-                    }
-
-                    numberBottom += " " + currentOperator + " ";
-                    tvmoney1.setText(numberBottom);
-                }
-            } else if (id == R.id.btnequal) {
-                if (isOperatorPressed) {
-                    String[] parts = numberBottom.split("[" + "\\+\\-\\*/" + "]");
-                    if (parts.length == 2) {
-                        double secondOperand = parseNumber(parts[1].trim());
-                        double result = 0;
-                        switch (currentOperator) {
-                            case "+": result = operandBottom + secondOperand; break;
-                            case "-": result = operandBottom - secondOperand; break;
-                            case "*": result = operandBottom * secondOperand; break;
-                            case "/": result = secondOperand != 0 ? operandBottom / secondOperand : 0; break;
-                        }
-                        numberBottom = formatResult(result);
-                        tvmoney2.setText(numberBottom);
-                        isOperatorPressed = false;
-                        currentOperator = "";
-                        convertCurrency(false);
-                    }
-                } else {
-                    convertCurrency(false);
-                }
-            } else if (id >= R.id.btn0 && id <= R.id.btn9) {
-                String value = String.valueOf(id - R.id.btn0);
-                numberBottom += value;
-                tvmoney2.setText(numberBottom);
-                if (!isOperatorPressed) convertCurrency(false);
             }
         }
     }

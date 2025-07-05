@@ -113,10 +113,13 @@ public class MainActivity extends AppCompatActivity {
         tvKhach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lưu tên người dùng là "Khách"
                 SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+
                 editor.putString("username", "Khách");  // Lưu tên là "Khách"
+                editor.putString("email", "khach@example.com");  // Email mặc định
+                editor.putString("sdt", "0000000000");           // Số điện thoại mặc định
+                editor.putString("password", "");                // Mật khẩu mặc định
                 editor.apply();
 
                 // Chuyển sang màn hình cài đặt
