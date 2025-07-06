@@ -92,15 +92,15 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             long currentTime = System.currentTimeMillis();
             SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", MODE_PRIVATE);
             long lastRefreshTime = sharedPreferences.getLong("lastRefreshTime", 0);
-                String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
-                String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
-                loadPrice(fromCurrency, toCurrency);
-                Toast.makeText(getApplicationContext(), "Updated successfully!", Toast.LENGTH_SHORT).show();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong("lastRefreshTime", currentTime);
-                editor.apply();
-                updateDataFromApi(fromCurrency, toCurrency);
-                CsvUtils.sortCsvFile(this, fromCurrency + "/" + toCurrency);
+            String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
+            String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
+            loadPrice(fromCurrency, toCurrency);
+            Toast.makeText(getApplicationContext(), "Updated successfully!", Toast.LENGTH_SHORT).show();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putLong("lastRefreshTime", currentTime);
+            editor.apply();
+            updateDataFromApi(fromCurrency, toCurrency);
+            CsvUtils.sortCsvFile(this, fromCurrency + "/" + toCurrency);
 
         });
 
@@ -246,7 +246,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
-    //
+
     private void convertCurrency(boolean fromTop) {
         //String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
         //String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
@@ -369,7 +369,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
         // Tạo URL
         String apiUrl = "https://www.alphavantage.co/query?function=FX_DAILY&from_symbol="
                 + fromSymbol + "&to_symbol=" + toSymbol
-                + "&outputsize=full&apikey=YOUR_API_KEY";
+                + "&outputsize=full&apikey=B15AUJQ9234KXN1O";
 
         new Thread(() -> {
             try {

@@ -5,6 +5,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,9 +26,12 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class BieuDo extends AppCompatActivity {
+    private TextView txtThoiGian, txtDate; // TextView để hiển thị thời gian và ngày
 
     private CandleStickChart candleStickChart; // Biểu đồ nến
     private String DulieuBieuDo;
@@ -42,31 +46,28 @@ public class BieuDo extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //
+
         // khởi tạo CandleStickChart
         candleStickChart = findViewById(R.id.candleStickChart);
 
         // Đọc dữ liệu từ file CSV và hiển thị biểu đồ
         readCSVAndDisplayChart();
+        txtThoiGian = findViewById(R.id.txtThoiGian);
+        txtDate = findViewById(R.id.txtDate);
 
-        // Menu dưới
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
-        //bottomNavigationView.setSelectedItemId(R.id.bottom_news);
+        // Lấy thowif gian hiện tại
+        Calendar calendar = Calendar.getInstance();
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.bottom_setting) {
-                Intent intent = new Intent(BieuDo.this, CaiDat.class);
-                startActivity(intent);
-                return true;
-            } else if (item.getItemId() == R.id.bottom_convert) {
-                Intent intent = new Intent(BieuDo.this, Convert.class);
-                startActivity(intent);
-                return true;
-            } else if (item.getItemId() == R.id.bottom_news) {
-                return true;
-            }
-            return false;
-        });
+        // Định dạng thời gian
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
+        String time = timeFormat.format(calendar.getTime());
+
+        // Định dạng ngày tháng
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String date = dateFormat.format(calendar.getTime());
+        // Cập nhật vào các TextView
+        txtThoiGian.setText(time);
+        txtDate.setText(date);
     }
 
     private void readCSVAndDisplayChart() {
@@ -122,6 +123,7 @@ public class BieuDo extends AppCompatActivity {
 
                 // Nến không đổi (cam)
                 dataSet.setNeutralColor(ContextCompat.getColor(this, android.R.color.holo_orange_light));
+                dataSet.setShadowColor(ContextCompat.getColor(this, android.R.color.white));
 
                 dataSet.setDrawValues(false); // Không hiện giá trị số
 
@@ -134,6 +136,8 @@ public class BieuDo extends AppCompatActivity {
                 candleStickChart.getXAxis().setTextColor(ContextCompat.getColor(this, android.R.color.white));
                 candleStickChart.getAxisLeft().setTextColor(ContextCompat.getColor(this, android.R.color.white));
                 candleStickChart.getAxisRight().setTextColor(ContextCompat.getColor(this, android.R.color.white));
+                candleStickChart.moveViewToX(entries.size());
+
 
                 // Đưa dữ liệu lên biểu đồ
                 CandleData candleData = new CandleData(dataSet);
