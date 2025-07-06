@@ -47,6 +47,9 @@ public class BieuDo extends AppCompatActivity {
             return insets;
         });
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
+        //bottomNavigationView.setSelectedItemId(R.id.bottom_setting);
+
         // khởi tạo CandleStickChart
         candleStickChart = findViewById(R.id.candleStickChart);
 
@@ -68,6 +71,27 @@ public class BieuDo extends AppCompatActivity {
         // Cập nhật vào các TextView
         txtThoiGian.setText(time);
         txtDate.setText(date);
+
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.bottom_setting) {
+                Intent intent = new Intent(BieuDo.this, CaiDat.class);
+                startActivity(intent);
+                return true;
+            } else if (item.getItemId() == R.id.bottom_convert) {
+                // Chuyển sang màn Convert
+                Intent intent = new Intent(BieuDo.this, Convert.class);
+                startActivity(intent);
+                return true;
+            }
+            else if (item.getItemId() == R.id.bottom_news) {
+                Intent intent = new Intent(BieuDo.this, NewsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            return false;
+        });
+        // Hết phần menu
     }
 
     private void readCSVAndDisplayChart() {
@@ -166,4 +190,6 @@ public class BieuDo extends AppCompatActivity {
             return 0f;
         }
     }
+
+
 }

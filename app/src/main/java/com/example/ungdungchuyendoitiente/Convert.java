@@ -365,6 +365,8 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             }
         }
     }
+
+
     public void updateDataFromApi(String fromSymbol, String toSymbol) {
         // Tạo URL
         String apiUrl = "https://www.alphavantage.co/query?function=FX_DAILY&from_symbol="
