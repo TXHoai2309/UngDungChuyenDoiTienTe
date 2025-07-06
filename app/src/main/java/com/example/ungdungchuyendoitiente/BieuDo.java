@@ -1,7 +1,6 @@
 package com.example.ungdungchuyendoitiente;
 
 import android.content.Intent;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,13 +8,13 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
@@ -31,9 +30,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class BieuDo extends AppCompatActivity {
-    private TextView txtThoiGian, txtDate; // TextView để hiển thị thời gian và ngày
-
-    private CandleStickChart candleStickChart; // Biểu đồ nến
+    private TextView txtThoiGian, txtDate;
+    private CandleStickChart candleStickChart;
     private String DulieuBieuDo;
 
     @Override
@@ -48,55 +46,40 @@ public class BieuDo extends AppCompatActivity {
         });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
-        //bottomNavigationView.setSelectedItemId(R.id.bottom_setting);
-
-        // khởi tạo CandleStickChart
         candleStickChart = findViewById(R.id.candleStickChart);
 
-        // Đọc dữ liệu từ file CSV và hiển thị biểu đồ
         readCSVAndDisplayChart();
+
         txtThoiGian = findViewById(R.id.txtThoiGian);
         txtDate = findViewById(R.id.txtDate);
 
-        // Lấy thowif gian hiện tại
         Calendar calendar = Calendar.getInstance();
-
-        // Định dạng thời gian
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         String time = timeFormat.format(calendar.getTime());
 
-        // Định dạng ngày tháng
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String date = dateFormat.format(calendar.getTime());
-        // Cập nhật vào các TextView
+
         txtThoiGian.setText(time);
         txtDate.setText(date);
 
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.bottom_setting) {
-                Intent intent = new Intent(BieuDo.this, CaiDat.class);
-                startActivity(intent);
+                startActivity(new Intent(BieuDo.this, CaiDat.class));
                 return true;
             } else if (item.getItemId() == R.id.bottom_convert) {
-                // Chuyển sang màn Convert
-                Intent intent = new Intent(BieuDo.this, Convert.class);
-                startActivity(intent);
+                startActivity(new Intent(BieuDo.this, Convert.class));
                 return true;
-            }
-            else if (item.getItemId() == R.id.bottom_news) {
-                Intent intent = new Intent(BieuDo.this, NewsActivity.class);
-                startActivity(intent);
+            } else if (item.getItemId() == R.id.bottom_news) {
+                startActivity(new Intent(BieuDo.this, NewsActivity.class));
                 return true;
             }
             return false;
         });
-        // Hết phần menu
     }
 
     private void readCSVAndDisplayChart() {
         try {
-            // Đọc file nội bộ (không dùng assets)
             File file = new File(getFilesDir(), "FileDuLieu.csv");
             if (!file.exists()) {
                 Log.e("CSV Error", "FileDuLieu.csv không tồn tại trong internal storage.");
@@ -106,18 +89,17 @@ public class BieuDo extends AppCompatActivity {
             CSVReader csvReader = new CSVReader(new FileReader(file));
             String[] row;
             ArrayList<CandleEntry> entries = new ArrayList<>();
+            ArrayList<String> xLabels = new ArrayList<>();
             int count = 0;
 
             DulieuBieuDo = getIntent().getStringExtra("DulieuBieuDo");
             Log.d("CSV", "Đọc dữ liệu cho slug: " + DulieuBieuDo);
 
-            // Bỏ dòng tiêu đề
-            csvReader.readNext();
+            csvReader.readNext(); // Bỏ dòng tiêu đề
 
             while ((row = csvReader.readNext()) != null) {
                 if (row.length > 5) {
                     String slug = row[0];
-
                     if (slug.equals(DulieuBieuDo)) {
                         try {
                             float open = parseFloatSafe(row[2]);
@@ -126,6 +108,7 @@ public class BieuDo extends AppCompatActivity {
                             float close = parseFloatSafe(row[5]);
 
                             entries.add(new CandleEntry(entries.size(), high, low, open, close));
+                            xLabels.add(row[1]); // Cột chứa ngày/giờ
                         } catch (NumberFormatException e) {
                             Log.e("CSV Error", "Error parsing row: " + row[0], e);
                         }
@@ -137,40 +120,53 @@ public class BieuDo extends AppCompatActivity {
             if (!entries.isEmpty()) {
                 CandleDataSet dataSet = new CandleDataSet(entries, DulieuBieuDo);
 
-                // Nến giảm (đỏ)
-                dataSet.setDecreasingColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
+                // Nến TradingView Style
+                dataSet.setDecreasingColor(android.graphics.Color.RED);
                 dataSet.setDecreasingPaintStyle(Paint.Style.FILL);
-
-                // Nến tăng (xanh)
-                dataSet.setIncreasingColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
+                dataSet.setIncreasingColor(android.graphics.Color.GREEN);
                 dataSet.setIncreasingPaintStyle(Paint.Style.FILL);
+                dataSet.setNeutralColor(android.graphics.Color.LTGRAY);
+                dataSet.setShadowColor(android.graphics.Color.DKGRAY);
+                dataSet.setShadowColorSameAsCandle(true);
+                dataSet.setDrawValues(false);
 
-                // Nến không đổi (cam)
-                dataSet.setNeutralColor(ContextCompat.getColor(this, android.R.color.holo_orange_light));
-                dataSet.setShadowColor(ContextCompat.getColor(this, android.R.color.white));
-
-                dataSet.setDrawValues(false); // Không hiện giá trị số
-
-                // Tùy chỉnh trục X
+                // Trục X
                 XAxis xAxis = candleStickChart.getXAxis();
-                xAxis.setDrawLabels(false);
+                xAxis.setDrawGridLines(true);
+                xAxis.setGridColor(android.graphics.Color.DKGRAY);
+                xAxis.setGridLineWidth(0.5f);
+                xAxis.setDrawAxisLine(true);
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setGranularity(1f);
+                xAxis.setDrawLabels(true);
+                xAxis.setLabelRotationAngle(-45f);
+                xAxis.setTextColor(android.graphics.Color.LTGRAY);
+                xAxis.setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(xLabels));
 
-                // Tùy chỉnh màu
-                candleStickChart.getDescription().setTextColor(ContextCompat.getColor(this, android.R.color.white));
-                candleStickChart.getXAxis().setTextColor(ContextCompat.getColor(this, android.R.color.white));
-                candleStickChart.getAxisLeft().setTextColor(ContextCompat.getColor(this, android.R.color.white));
-                candleStickChart.getAxisRight().setTextColor(ContextCompat.getColor(this, android.R.color.white));
-                candleStickChart.moveViewToX(entries.size());
 
+                // Trục Y
+                YAxis leftAxis = candleStickChart.getAxisLeft();
+                leftAxis.setDrawGridLines(true);
+                leftAxis.setGridColor(android.graphics.Color.DKGRAY);
+                leftAxis.setGridLineWidth(0.5f);
+                leftAxis.setTextColor(android.graphics.Color.LTGRAY);
 
-                // Đưa dữ liệu lên biểu đồ
+                candleStickChart.getAxisRight().setEnabled(false);
+
+                // Cài đặt chart
+                candleStickChart.setBackgroundColor(android.graphics.Color.parseColor("#383636"));
+                candleStickChart.getDescription().setEnabled(false);
+                candleStickChart.setPinchZoom(true);
+                candleStickChart.setScaleEnabled(true);
+                candleStickChart.setDragEnabled(true);
+                candleStickChart.setDrawBorders(false);
+                candleStickChart.animateX(800);
+                candleStickChart.moveViewToX(entries.size() - candleStickChart.getVisibleXRange());
+
                 CandleData candleData = new CandleData(dataSet);
                 candleStickChart.setData(candleData);
 
-                candleStickChart.setDragEnabled(true);
-                candleStickChart.setScaleEnabled(true);
                 candleStickChart.setVisibleXRangeMaximum(35);
-
                 candleStickChart.invalidate();
             } else {
                 Log.e("CSV Error", "Không có dữ liệu để hiển thị cho: " + DulieuBieuDo);
@@ -190,6 +186,4 @@ public class BieuDo extends AppCompatActivity {
             return 0f;
         }
     }
-
-
 }
