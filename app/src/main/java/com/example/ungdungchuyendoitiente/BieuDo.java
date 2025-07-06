@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -33,6 +34,7 @@ public class BieuDo extends AppCompatActivity {
     private TextView txtThoiGian, txtDate;
     private CandleStickChart candleStickChart;
     private String DulieuBieuDo;
+    private ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,6 @@ public class BieuDo extends AppCompatActivity {
             return insets;
         });
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
         candleStickChart = findViewById(R.id.candleStickChart);
 
         readCSVAndDisplayChart();
@@ -63,18 +64,10 @@ public class BieuDo extends AppCompatActivity {
         txtThoiGian.setText(time);
         txtDate.setText(date);
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.bottom_setting) {
-                startActivity(new Intent(BieuDo.this, CaiDat.class));
-                return true;
-            } else if (item.getItemId() == R.id.bottom_convert) {
-                startActivity(new Intent(BieuDo.this, Convert.class));
-                return true;
-            } else if (item.getItemId() == R.id.bottom_news) {
-                startActivity(new Intent(BieuDo.this, NewsActivity.class));
-                return true;
-            }
-            return false;
+        imgBack = findViewById(R.id.imgBack);
+        imgBack.setOnClickListener(v -> {
+            Intent intent = new Intent(BieuDo.this, Convert.class);
+            finish();
         });
     }
 

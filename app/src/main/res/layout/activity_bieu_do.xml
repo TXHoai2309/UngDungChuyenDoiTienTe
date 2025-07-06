@@ -19,12 +19,20 @@
         android:textSize="25dp"
         android:gravity="center"
         />
+    <ImageView
+        android:id="@+id/imgBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/icon_back"
+        android:paddingLeft="10dp"
+        app:tint="@color/white"
+        android:paddingTop="5dp"/>
 
     <TextView
         android:id="@+id/txtBienDongGia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="Biến động giá"
         android:textSize="16dp"
         android:paddingLeft="15dp"
         android:textStyle="italic"
@@ -70,21 +78,8 @@
 
     <com.github.mikephil.charting.charts.CandleStickChart
         android:id="@+id/candleStickChart"
-        android:layout_width="381dp"
-        android:layout_height="525dp"
-        android:layout_margin="16dp" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomnavigation"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/black"
-        app:itemIconSize="20dp"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
+        android:layout_height="match_parent"
+        android:layout_margin="16dp" />
 
 </LinearLayout>
