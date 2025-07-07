@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiClient_Price {
-    private static  final String BASE_URL = "https://v6.exchangerate-api.com/v6/33504ddc8498cae0008c0ffb/";
+    private static  final String BASE_URL = "https://v6.exchangerate-api.com/v6/da8f60c5be858c634be7b0f7/";
 
     private static Retrofit retrofit;
 

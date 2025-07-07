@@ -87,6 +87,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
 
         loadPrice(tenQuocGiaTop, tenQuocGiaBottom);
 
+
         imgResetPrice.setOnClickListener(v -> {
             long currentTime = System.currentTimeMillis();
             SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", MODE_PRIVATE);
