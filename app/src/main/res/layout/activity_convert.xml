@@ -27,19 +27,8 @@
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_weight="1"
-            android:layout_marginStart="25dp"
             />  <!-- Đây là điểm cần thêm để TextView chiếm không gian còn lại -->
 
-        <!-- ImageView đặt ở góc phải -->
-        <ImageView
-            android:id="@+id/imglichsu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/outline_contract_24"
-            android:layout_gravity="end"
-            app:tint="@color/white"
-            android:layout_marginEnd="10dp"
-            />
 
     </LinearLayout>
 
@@ -124,7 +113,8 @@
             android:layout_height="25dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text=""
+            android:text="1 USD = 23,000 VND"
+            android:paddingLeft="50dp"
             android:textColor="@color/white"/>
 
         <ImageView

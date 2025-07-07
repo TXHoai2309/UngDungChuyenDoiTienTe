@@ -48,15 +48,19 @@ public class CaiDat extends AppCompatActivity {
 
         // Hiển thị tên người dùng
         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "Unknown User");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Unknown User"
-
-        TextView txtUser = findViewById(R.id.txtUser);
-        txtUser.setText(username);  // Hiển thị tên người dùng trong TextView
+        String username = sharedPreferences.getString("username", "Khách");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Khách"
+        txtUser.setText(username);
         //
 
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Xóa toàn bộ dữ liệu trong SharedPreferences khi Logout
+                SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();  // Xóa tất cả dữ liệu trong SharedPreferences
+                editor.apply();  // Áp dụng thay đổi
+
                 Intent intent = new Intent(CaiDat.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -65,6 +69,12 @@ public class CaiDat extends AppCompatActivity {
         imgLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Xóa toàn bộ dữ liệu trong SharedPreferences khi Logout
+                SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();  // Xóa tất cả dữ liệu trong SharedPreferences
+                editor.apply();  // Áp dụng thay đổi
+
                 Intent intent = new Intent(CaiDat.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -80,8 +90,8 @@ public class CaiDat extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
-            else if (item.getItemId() == R.id.bottom_check) {
-                Intent intent = new Intent(CaiDat.this, BieuDo.class);
+            else if (item.getItemId() == R.id.bottom_news) {
+                Intent intent = new Intent(CaiDat.this, NewsActivity.class);
                 startActivity(intent);
                 return true;
             }
@@ -98,8 +108,6 @@ public class CaiDat extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
                 String userId = sharedPreferences.getString("username", "Unknown User");
 
-                // Kiểm tra userId có hợp lệ không
-                Log.d("CaiDatActivity", "userId: " + userId);
 
                 // Chuyển sang ProfileActivity và truyền userId
                 Intent intent = new Intent(CaiDat.this, Profile.class);

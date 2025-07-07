@@ -17,6 +17,22 @@ public class ThongTinDangKy {
         this.sdt = sdt;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
+    }
+
+    public void setPsw(String psw) {
+        this.psw = psw;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
     public String getUid() {
         return uid;
     }

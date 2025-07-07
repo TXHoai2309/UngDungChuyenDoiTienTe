@@ -2,7 +2,7 @@ package com.example.ungdungchuyendoitiente;
 
 public class ThongTinCacQuocGia {
     private String maTienTe;
-    private String tenQuocGia;
+    private  String tenQuocGia;
     private int hinhQuocGia;
 
     public ThongTinCacQuocGia(String tenQuocGia, String maTienTe, int hinhQuocGia) {
@@ -13,7 +13,7 @@ public class ThongTinCacQuocGia {
     public String getMaTienTe() {
         return maTienTe;
     }
-    public String getTenQuocGia() {
+    public  String getTenQuocGia() {
         return tenQuocGia;
     }
     public int getHinhQuocGia() {

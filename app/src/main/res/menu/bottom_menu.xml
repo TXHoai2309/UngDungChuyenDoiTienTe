@@ -5,9 +5,10 @@
         android:icon="@drawable/icon_convert"
         android:title="Convert"/>
     <item
-        android:id="@+id/bottom_check"
+        android:id="@+id/bottom_news"
         android:icon="@drawable/icon_check"
-        android:title="Check"/>
+        android:title="News"/>
+
     <item
         android:id="@+id/bottom_setting"
         android:icon="@drawable/icon_setting"

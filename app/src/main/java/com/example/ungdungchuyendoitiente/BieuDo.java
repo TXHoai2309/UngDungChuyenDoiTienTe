@@ -1,15 +1,14 @@
 package com.example.ungdungchuyendoitiente;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,17 +21,20 @@ import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvValidationException;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class BieuDo extends AppCompatActivity {
-
-
-    private CandleStickChart candleStickChart ; // Biểu đồ nến
+    private TextView txtThoiGian, txtDate;
+    private CandleStickChart candleStickChart;
+    private String DulieuBieuDo;
+    private ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,49 +47,53 @@ public class BieuDo extends AppCompatActivity {
             return insets;
         });
 
-        // khởi tạo Canlestickchart
         candleStickChart = findViewById(R.id.candleStickChart);
-        // Đọc dữ liệu từ file CSV và hiển thị biểu đồ
+
         readCSVAndDisplayChart();
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_check);
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.bottom_setting) {
-                // Chuyển sang màn CaiDat
-                Intent intent = new Intent(BieuDo.this, CaiDat.class);
-                startActivity(intent);
-                return true;
-            } else if (item.getItemId() == R.id.bottom_check) {
-                return true;
-            } else if (item.getItemId() == R.id.bottom_convert){
-                Intent intent = new Intent(BieuDo.this, Convert.class);
-                startActivity(intent);
-                return true;
-            }
+        txtThoiGian = findViewById(R.id.txtThoiGian);
+        txtDate = findViewById(R.id.txtDate);
 
-            else if (item.getItemId() == R.id.bottom_check) {
-                return true;
-            }
-            return false;
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        String time = timeFormat.format(calendar.getTime());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String date = dateFormat.format(calendar.getTime());
+
+        txtThoiGian.setText(time);
+        txtDate.setText(date);
+
+        imgBack = findViewById(R.id.imgBack);
+        imgBack.setOnClickListener(v -> {
+            Intent intent = new Intent(BieuDo.this, Convert.class);
+            finish();
         });
-        // Hết phần menu
     }
+
     private void readCSVAndDisplayChart() {
         try {
-            InputStream inputStream = getAssets().open("FileDuLieu.csv");
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            CSVReader csvReader = new CSVReader(inputStreamReader);
+            File file = new File(getFilesDir(), "FileDuLieu.csv");
+            if (!file.exists()) {
+                Log.e("CSV Error", "FileDuLieu.csv không tồn tại trong internal storage.");
+                return;
+            }
+
+            CSVReader csvReader = new CSVReader(new FileReader(file));
             String[] row;
             ArrayList<CandleEntry> entries = new ArrayList<>();
-            int count = 0;  // Chỉ số đếm để lọc lấy mỗi 10 dòng 1
+            ArrayList<String> xLabels = new ArrayList<>();
+            int count = 0;
+
+            DulieuBieuDo = getIntent().getStringExtra("DulieuBieuDo");
+            Log.d("CSV", "Đọc dữ liệu cho slug: " + DulieuBieuDo);
+
+            csvReader.readNext(); // Bỏ dòng tiêu đề
 
             while ((row = csvReader.readNext()) != null) {
                 if (row.length > 5) {
-                    String slug = row[0];  // Cặp tiền tệ (ví dụ: GBP/EGP)
-
-                    // Chỉ lấy dữ liệu cho cặp USD/VND
-                    if (slug.equals("USD/VND") && count % 10 == 0) {
+                    String slug = row[0];
+                    if (slug.equals(DulieuBieuDo)) {
                         try {
                             float open = parseFloatSafe(row[2]);
                             float high = parseFloatSafe(row[3]);
@@ -95,6 +101,7 @@ public class BieuDo extends AppCompatActivity {
                             float close = parseFloatSafe(row[5]);
 
                             entries.add(new CandleEntry(entries.size(), high, low, open, close));
+                            xLabels.add(row[1]); // Cột chứa ngày/giờ
                         } catch (NumberFormatException e) {
                             Log.e("CSV Error", "Error parsing row: " + row[0], e);
                         }
@@ -103,70 +110,73 @@ public class BieuDo extends AppCompatActivity {
                 }
             }
 
-            if (entries.size() > 0) {
-                // Tạo biểu đồ cho tỷ giá USD/VND
-                CandleDataSet dataSet = new CandleDataSet(entries, "USD/VND");
+            if (!entries.isEmpty()) {
+                CandleDataSet dataSet = new CandleDataSet(entries, DulieuBieuDo);
 
-                // Nến giảm (red)
-                dataSet.setDecreasingColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
+                // Nến TradingView Style
+                dataSet.setDecreasingColor(android.graphics.Color.RED);
                 dataSet.setDecreasingPaintStyle(Paint.Style.FILL);
-
-                // Nến tăng (green)
-                dataSet.setIncreasingColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
+                dataSet.setIncreasingColor(android.graphics.Color.GREEN);
                 dataSet.setIncreasingPaintStyle(Paint.Style.FILL);
+                dataSet.setNeutralColor(android.graphics.Color.LTGRAY);
+                dataSet.setShadowColor(android.graphics.Color.DKGRAY);
+                dataSet.setShadowColorSameAsCandle(true);
+                dataSet.setDrawValues(false);
 
-                // Nến không đổi (gray)
-                dataSet.setNeutralColor(ContextCompat.getColor(this, android.R.color.holo_orange_light));
-
-                // Màu bóng nến (shadow)
-                dataSet.setShadowColor(ContextCompat.getColor(this, android.R.color.holo_blue_light));
-
-                // Màu chữ hiển thị giá trị trên nến (black)
-                dataSet.setValueTextColor(ContextCompat.getColor(this, android.R.color.black));
-
-                // Tùy chỉnh lại các trục (x, y) cho đẹp mắt
-                dataSet.setValueTextSize(10f);
-                dataSet.setFormLineWidth(2f);
-                dataSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-                dataSet.setFormSize(15f);
-
-
-                dataSet.setValueTextColor(ContextCompat.getColor(this, android.R.color.holo_orange_dark));
-                candleStickChart.getDescription().setTextColor(ContextCompat.getColor(this, android.R.color.white));
-                candleStickChart.getXAxis().setTextColor(ContextCompat.getColor(this, android.R.color.white));
-                candleStickChart.getAxisLeft().setTextColor(ContextCompat.getColor(this, android.R.color.white));
-                candleStickChart.getAxisRight().setTextColor(ContextCompat.getColor(this, android.R.color.white));
-
-                candleStickChart.setExtraOffsets(20f, 20f, 20f, 20f); // Điều chỉnh khoảng cách xung quanh biểu đồ
-                // Lấy đối tượng trục Y
+                // Trục X
+                XAxis xAxis = candleStickChart.getXAxis();
+                xAxis.setDrawGridLines(true);
+                xAxis.setGridColor(android.graphics.Color.DKGRAY);
+                xAxis.setGridLineWidth(0.5f);
+                xAxis.setDrawAxisLine(true);
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setGranularity(1f);
+                xAxis.setDrawLabels(true);
+                xAxis.setLabelRotationAngle(-45f);
+                xAxis.setTextColor(android.graphics.Color.LTGRAY);
+                xAxis.setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(xLabels));
 
 
-                // Tạo và hiển thị dữ liệu cho biểu đồ
+                // Trục Y
+                YAxis leftAxis = candleStickChart.getAxisLeft();
+                leftAxis.setDrawGridLines(true);
+                leftAxis.setGridColor(android.graphics.Color.DKGRAY);
+                leftAxis.setGridLineWidth(0.5f);
+                leftAxis.setTextColor(android.graphics.Color.LTGRAY);
+
+                candleStickChart.getAxisRight().setEnabled(false);
+
+                // Cài đặt chart
+                candleStickChart.setBackgroundColor(android.graphics.Color.parseColor("#383636"));
+                candleStickChart.getDescription().setEnabled(false);
+                candleStickChart.setPinchZoom(true);
+                candleStickChart.setScaleEnabled(true);
+                candleStickChart.setDragEnabled(true);
+                candleStickChart.setDrawBorders(false);
+                candleStickChart.animateX(800);
+                candleStickChart.moveViewToX(entries.size() - candleStickChart.getVisibleXRange());
+
                 CandleData candleData = new CandleData(dataSet);
                 candleStickChart.setData(candleData);
 
-                // Cho phép zoom và kéo
-                candleStickChart.setDragEnabled(true);  // Cho phép kéo biểu đồ
-                candleStickChart.setScaleEnabled(true); // Cho phép zoom
-                candleStickChart.setVisibleXRangeMaximum(5);  // Hiển thị tối đa 10 ngày trên màn hình
-
-                candleStickChart.invalidate();  // Làm mới biểu đồ
+                candleStickChart.setVisibleXRangeMaximum(35);
+                candleStickChart.invalidate();
             } else {
-                Log.e("CSV Error", "No data available for USD/VND.");
+                Log.e("CSV Error", "Không có dữ liệu để hiển thị cho: " + DulieuBieuDo);
             }
 
-        } catch (IOException | CsvException e) {
+        } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
-            Log.e("CSV Error", "Error reading CSV file", e);
+            Log.e("CSV Error", "Lỗi đọc file CSV", e);
         }
     }
-    // Hàm phụ để xử lý chuyển đổi chuỗi thành số, tránh lỗi NumberFormatException
+
     private float parseFloatSafe(String value) {
         try {
             return Float.parseFloat(value);
         } catch (NumberFormatException e) {
-            Log.e("CSV Error", "Invalid number format for value: " + value, e);
-            return 0f;  // Nếu không thể chuyển đổi, trả về giá trị mặc định là 0
+            Log.e("CSV Error", "Invalid number format: " + value, e);
+            return 0f;
         }
     }
 }

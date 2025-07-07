@@ -103,6 +103,7 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_PSW)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_EMAIL)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_SDT))
+                        //
                 );
                 thongTinDangKyList.add(thongTinDangKy);
             }while(cursor.moveToNext());
@@ -110,12 +111,15 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         cursor.close();
         return  thongTinDangKyList;
     }
-
-    public int updateThongTinDangKy(ThongTinDangKy thongTinDangKy){
+    // Cập nhật thông tin người dùng (bao gồm mật khẩu)
+    public int updateThongTinDangKy(ThongTinDangKy thongTinDangKy) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COL_PSW,thongTinDangKy.getPsw());
-        return  db.update(TABLE_NAME,values,COL_ID + "=?",new String[]{String.valueOf(thongTinDangKy.getUid())});
+        values.put(COL_NAME, thongTinDangKy.getHoTen());   // Cập nhật họ tên
+        values.put(COL_PSW, thongTinDangKy.getPsw());      // Cập nhật mật khẩu
+        values.put(COL_EMAIL, thongTinDangKy.getEmail());  // Cập nhật email
+        values.put(COL_SDT, thongTinDangKy.getSdt());      // Cập nhật số điện thoại
+        return db.update(TABLE_NAME, values, COL_ID + "=?", new String[]{thongTinDangKy.getUid()});
     }
 
     public boolean checkUser(String userID, String password){
@@ -126,22 +130,13 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         boolean isValid = cursor.moveToFirst();
         cursor.close();
         return isValid;
+        //
 
     }
-    // Lấy tên người dùng
-    public String getUsername(String userId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, new String[]{COL_NAME}, COL_ID + " = ?", new String[]{userId}, null, null, null);
 
-        // Đảm bảo cursor không phải là null và có kết quả
-        if (cursor != null && cursor.moveToFirst()) {
-            String username = cursor.getString(0);  // 0 là chỉ số của cột đầu tiên trong truy vấn (COL_NAME)
-            cursor.close();
-            return username;  // Trả về tên người dùng
-        }
-
-        cursor.close();
-        return "Khách";  // Giá trị mặc định nếu không tìm thấy tên người dùng\
-        //
+    // Xóa tài khoản người dùng
+    public int deleteUser(String userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, COL_ID + "=?", new String[]{userId});
     }
 }
