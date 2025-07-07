@@ -74,6 +74,7 @@ public class NewsActivity extends AppCompatActivity {
             allNews.addAll(NguonTinTuc.fetchCafeF());
             allNews.addAll(NguonTinTuc.fetchVietNamBiz());
 
+            // Không giới hạn số lượng tin trong nước!
             runOnUiThread(() -> {
                 newsAdapter = new NewsAdapter(allNews);
                 recyclerView.setAdapter(newsAdapter);
@@ -84,8 +85,12 @@ public class NewsActivity extends AppCompatActivity {
     private void loadApiNews() {
         new Thread(() -> {
             List<NewsArticle> apiNews = NguonTinTuc.apiNews_en();
+
+            // Giới hạn còn 20 tin
+            List<NewsArticle> limitedNews = apiNews.size() > 20 ? apiNews.subList(0, 20) : apiNews;
+
             runOnUiThread(() -> {
-                newsAdapter = new NewsAdapter(apiNews);
+                newsAdapter = new NewsAdapter(limitedNews);
                 recyclerView.setAdapter(newsAdapter);
             });
         }).start();

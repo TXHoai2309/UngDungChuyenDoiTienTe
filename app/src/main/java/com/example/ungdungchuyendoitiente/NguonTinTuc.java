@@ -15,7 +15,7 @@ public class NguonTinTuc {
     public static List<NewsArticle> fetchVietNamBiz() {
         List<NewsArticle> articles = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect("https://vietnambiz.vn/tai-chinh/ty-gia.htm").get();
+            Document doc = Jsoup.connect("https://vietnambiz.vn/tai-chinh.htm").get();
             Elements newsList = doc.select("div.item");
             for (Element news : newsList) {
                 // Link bài viết
@@ -51,7 +51,7 @@ public class NguonTinTuc {
     public static List<NewsArticle> fetchCafeF() {
         List<NewsArticle> articles = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect("https://cafef.vn/ty-gia.html")
+            Document doc = Jsoup.connect("https://cafef.vn/thi-truong-chung-khoan.chn")
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36")
                     .timeout(10000)
                     .get();

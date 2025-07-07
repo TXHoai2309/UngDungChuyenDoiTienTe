@@ -63,7 +63,6 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
 
     private String currentOperator = "";
     private double operandTop = 0;
-    private double operandBottom = 0;
     private boolean isOperatorPressed = false;
 
     @Override
@@ -92,16 +91,20 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
             long currentTime = System.currentTimeMillis();
             SharedPreferences sharedPreferences = getSharedPreferences("appPrefs", MODE_PRIVATE);
             long lastRefreshTime = sharedPreferences.getLong("lastRefreshTime", 0);
-            String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
-            String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
-            loadPrice(fromCurrency, toCurrency);
+
+            // CHỈ TRUYỀN TÊN QUỐC GIA VÀO
+            loadPrice(tenQuocGiaTop, tenQuocGiaBottom);
+
             Toast.makeText(getApplicationContext(), "Updated successfully!", Toast.LENGTH_SHORT).show();
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putLong("lastRefreshTime", currentTime);
             editor.apply();
+
+            // Dòng này dùng đúng mã tiền tệ
+            String fromCurrency = getCurrencyCodeByCountry(tenQuocGiaTop);
+            String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
             updateDataFromApi(fromCurrency, toCurrency);
             CsvUtils.sortCsvFile(this, fromCurrency + "/" + toCurrency);
-
         });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
