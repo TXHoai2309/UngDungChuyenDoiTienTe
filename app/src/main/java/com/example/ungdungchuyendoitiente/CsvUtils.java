@@ -98,17 +98,17 @@ public class CsvUtils {
             e.printStackTrace();
         }
     }
-
     // Chuyển M/d/yyyy thành yyyyMMdd để sort
     private static String normalizeDate(String date) {
         try {
-            SimpleDateFormat parser = new SimpleDateFormat("M/d/yyyy");
+            SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
             return formatter.format(parser.parse(date));
         } catch (Exception e) {
             return date;
         }
     }
+
 
 
 }
