@@ -418,7 +418,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                         String low = dayData.getString("3. low");
                         String close = dayData.getString("4. close");
 
-                        String dateForCsv = CsvUtils.convertToMdyyyy(date);
+                        String dateForCsv = date;   // giữ nguyên yyyy-MM-dd
                         String lineCsv = slug + "," + dateForCsv + "," + open + "," + high + "," + low + "," + close + "," + currency;
                         CsvUtils.appendLine(this, lineCsv);
                         addedCount++;
