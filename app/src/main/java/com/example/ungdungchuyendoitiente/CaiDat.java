@@ -23,11 +23,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CaiDat extends AppCompatActivity {
 
-    TextView Logout, txtUser;
-    ImageView imgAccount;
+    TextView Logout, txtUser, tvTerms, tvAboutUs;
+    ImageView imgAccount, imgTerms, imgAboutUs;
     Button btnGray, btnWhite;
-
-    ImageView imgLogout;
+    ImageView imgLogout, imgThemes, imgLanguages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +43,13 @@ public class CaiDat extends AppCompatActivity {
         btnGray = findViewById(R.id.btnGrey);
         Logout = findViewById(R.id.txtLogout);
         imgLogout = findViewById(R.id.imgLogout);
+        tvTerms = findViewById(R.id.tvTerms);
+        imgTerms = findViewById(R.id.imgTerms);
+        imgAccount = findViewById(R.id.imgAccount);
+        imgAboutUs = findViewById(R.id.imgAbout);
+        tvAboutUs = findViewById(R.id.tvAbout);
+        imgThemes = findViewById(R.id.imgThemes);
+        imgLanguages = findViewById(R.id.imgLanguages);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_setting);
 
@@ -51,8 +57,7 @@ public class CaiDat extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Guest");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Khách"
         txtUser.setText(username);
-        //
-
+         // Đăng xuất người dùng
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +121,22 @@ public class CaiDat extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        imgAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lấy userId hoặc username từ SharedPreferences
+                // Lấy userId từ SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                String userId = sharedPreferences.getString("username", "Unknown User");
+
+
+                // Chuyển sang ProfileActivity và truyền userId
+                Intent intent = new Intent(CaiDat.this, Profile.class);
+                intent.putExtra("userId", userId);  // Truyền userId vào ProfileActivity
+                startActivity(intent);
+            }
+        });
+        // Chức năng chuyển đổi giao diện và ngôn ngữ
         TextView tvThemes = findViewById(R.id.textView12);     // "Themes"
         TextView tvLanguages = findViewById(R.id.textView24);  // "Languages"
         btnGray.setOnClickListener(v ->
@@ -124,14 +145,43 @@ public class CaiDat extends AppCompatActivity {
         btnWhite.setOnClickListener(v ->
                 Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
         );
-
         tvThemes.setOnClickListener(v ->
+                Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
+        );
+        imgThemes.setOnClickListener(v ->
                 Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
         );
 
         tvLanguages.setOnClickListener(v ->
                 Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
         );
-
+        imgLanguages.setOnClickListener(v ->
+                Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
+        );
+        // Thông tin và điều khoản
+        tvTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TermsDialog.show(CaiDat.this);
+            }
+        });
+        imgTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TermsDialog.show(CaiDat.this);
+            }
+        });
+        tvAboutUs.setOnClickListener(new View.OnClickListener() {;
+            @Override
+            public void onClick(View v) {
+                AboutUsDialog.show(CaiDat.this);
+            }
+        });
+        imgAboutUs.setOnClickListener(new View.OnClickListener() {;
+            @Override
+            public void onClick(View v) {
+                AboutUsDialog.show(CaiDat.this);
+            }
+        });
     }
 }
