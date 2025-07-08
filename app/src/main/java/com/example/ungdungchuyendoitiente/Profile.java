@@ -1,11 +1,14 @@
 package com.example.ungdungchuyendoitiente;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -71,80 +74,78 @@ public class Profile extends AppCompatActivity {
 
     // Hàm hiển thị Dialog sửa thông tin
     private void showEditDialog(final String userId) {
-        // Lấy thông tin người dùng từ cơ sở dữ liệu
         ThongTinDangKy userInfo = db.getUserInfo(userId);
         if (userInfo == null) {
-            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please log in to use this feature!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Tạo dialog sửa thông tin người dùng
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit Profile");
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_suahoso);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        // Set up các trường nhập vào (EditText) để sửa thông tin
-        View view = getLayoutInflater().inflate(R.layout.dialog_suahoso, null);
-        final EditText edtName = view.findViewById(R.id.edtName);
-        final EditText edtEmail = view.findViewById(R.id.edtEmail);
-        final EditText edtPhone = view.findViewById(R.id.edtPhone);
-        final EditText edtPassword = view.findViewById(R.id.edtPassword);
+        // Set width rộng ra
+        Window window = dialog.getWindow();
+        if (window != null) {
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.copyFrom(window.getAttributes());
+            layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+            window.setAttributes(layoutParams);
+        }
 
-        // Điền dữ liệu hiện tại vào các EditText
+        final EditText edtName = dialog.findViewById(R.id.edtName);
+        final EditText edtEmail = dialog.findViewById(R.id.edtEmail);
+        final EditText edtPhone = dialog.findViewById(R.id.edtPhone);
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        Button btnSave = dialog.findViewById(R.id.btnSave);
+
         edtName.setText(userInfo.getHoTen());
         edtEmail.setText(userInfo.getEmail());
         edtPhone.setText(userInfo.getSdt());
-        edtPassword.setText(userInfo.getPsw());
 
-        builder.setView(view);
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnSave.setOnClickListener(v -> {
+            String newName = edtName.getText().toString().trim();
+            String newEmail = edtEmail.getText().toString().trim();
+            String newPhone = edtPhone.getText().toString().trim();
 
-        // Set up nút OK để lưu thay đổi
-        builder.setPositiveButton("Save", (dialog, which) -> {
-            // Lấy dữ liệu từ các EditText
-            String newName = edtName.getText().toString();
-            String newEmail = edtEmail.getText().toString();
-            String newPhone = edtPhone.getText().toString();
-            String newPassword = edtPassword.getText().toString();
-
-            // Kiểm tra dữ liệu nhập vào
-            if (newName.isEmpty() || newEmail.isEmpty() || newPhone.isEmpty() || newPassword.isEmpty()) {
+            if (newName.isEmpty() || newEmail.isEmpty() || newPhone.isEmpty()) {
                 Toast.makeText(Profile.this, "Please enter complete information", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Cập nhật dữ liệu trong cơ sở dữ liệu
+            // Update DB
             userInfo.setHoTen(newName);
             userInfo.setEmail(newEmail);
             userInfo.setSdt(newPhone);
-            userInfo.setPsw(newPassword);
             db.updateThongTinDangKy(userInfo);
 
-            // Cập nhật lại SharedPreferences
+            // Update SharedPreferences
             SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("username", newName);
             editor.putString("email", newEmail);
             editor.putString("sdt", newPhone);
-            editor.putString("password", newPassword);
             editor.apply();
 
-            // Hiển thị thông báo thành công
             Toast.makeText(Profile.this, "Update Successful!", Toast.LENGTH_SHORT).show();
-
             // Cập nhật lại các TextView trên màn hình Hồ sơ
             tvHoten2.setText(newName);
             tvemail2.setText(newEmail);
             tvSDT2.setText(newPhone);
+
+            dialog.dismiss(); // Thoát dialog sau khi save
         });
 
-        // Set up nút Cancel để thoát dialog mà không làm thay đổi
-        builder.setNegativeButton("Cancel", null);
-
-        // Hiển thị Dialog
-        builder.show();
+        dialog.show();
     }
-
     // Hàm hiển thị Dialog xóa tài khoản
     private void showDeleteDialog(final String userId) {
+        ThongTinDangKy userInfo = db.getUserInfo(userId);
+        if (userInfo == null) {
+            Toast.makeText(this, "Please log in to use this feature!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         new AlertDialog.Builder(this)
                 .setTitle("Delete account")
                 .setMessage("Are you sure you want to delete this account?")
