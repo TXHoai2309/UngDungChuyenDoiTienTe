@@ -38,7 +38,6 @@ public class NguonTinTuc {
                 Element img = news.selectFirst("img.img120x80");
                 String imgUrl = (img != null) ? img.attr("src") : "";
 
-                // **Chỉ add nếu có title và link và imgUrl (đủ dữ liệu cần thiết)**
                 if (!title.isEmpty() && !link.isEmpty() && !imgUrl.isEmpty()) {
                     articles.add(new NewsArticle(title, desc, pubDate, imgUrl, link));
                 }
@@ -76,7 +75,6 @@ public class NguonTinTuc {
                 // Mô tả
                 String desc = aTag != null ? Jsoup.parse(aTag.attr("title")).text() : "";
 
-                // Chỉ add nếu có đủ dữ liệu
                 if (!title.isEmpty() && !link.isEmpty() && !imgUrl.isEmpty()) {
                     articles.add(new NewsArticle(title, desc, pubDate, imgUrl, link));
                 }
