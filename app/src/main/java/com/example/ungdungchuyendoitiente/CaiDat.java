@@ -48,7 +48,7 @@ public class CaiDat extends AppCompatActivity {
 
         // Hiển thị tên người dùng
         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "Khách");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Khách"
+        String username = sharedPreferences.getString("username", "Guest");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Khách"
         txtUser.setText(username);
         //
 

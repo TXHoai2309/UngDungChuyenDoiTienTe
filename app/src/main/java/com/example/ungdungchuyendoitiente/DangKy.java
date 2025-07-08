@@ -1,14 +1,13 @@
 package com.example.ungdungchuyendoitiente;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,28 +63,25 @@ public class DangKy extends AppCompatActivity {
 
                 // Kiểm tra nếu các trường không rỗng
                 if (id.isEmpty() || hoTen.isEmpty() || psw.isEmpty() || email.isEmpty() || sdt.isEmpty()) {
-                    Toast.makeText(DangKy.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Thêm người dùng vào cơ sở dữ liệu
-                    db.addUserDangKy(new ThongTinDangKy(id, hoTen, psw, email, sdt));
+                    Toast.makeText(DangKy.this, "Please fill in all information", Toast.LENGTH_SHORT).show();
+                } else if(db.isUserIdExists(id)) {
+                    Toast.makeText(DangKy.this, "ID Existed!", Toast.LENGTH_SHORT).show();
+                    }else
+                    {
+                        // Thêm người dùng vào cơ sở dữ liệu
+                        db.addUserDangKy(new ThongTinDangKy(id, hoTen, psw, email, sdt));
 
-                    // Hiển thị thông báo thành công
-                    Toast.makeText(DangKy.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                        // Hiển thị thông báo thành công
+                        Toast.makeText(DangKy.this, "Sign In Successful!", Toast.LENGTH_SHORT).show();
 
-                    // Chuyển đến màn hình đăng nhập, truyền id và password vừa đăng ký
-                    Intent intent = new Intent(DangKy.this, MainActivity.class);
-                    intent.putExtra("id",id);
-                    intent.putExtra("psw",psw);
-                    setResult(RESULT_OK,intent);
-                    startActivity(intent);
+                        // Chuyển đến màn hình đăng nhập, truyền id và password vừa đăng ký
+                        Intent intent = new Intent(DangKy.this, MainActivity.class);
+                        intent.putExtra("id",id);
+                        intent.putExtra("psw",psw);
+                        setResult(RESULT_OK,intent);
+                        startActivity(intent);
+                    }
                 }
-
-            }
         });
-
-
-
     }
-
-
 }
