@@ -128,7 +128,7 @@
                 android:text="     " />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imgThemes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/theme" />
@@ -232,7 +232,7 @@
                 android:text="     " />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imgLanguages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
