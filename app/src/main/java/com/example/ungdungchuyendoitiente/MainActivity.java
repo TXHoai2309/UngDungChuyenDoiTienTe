@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Kiểm tra nhập đủ thông tin
                 if (id.isEmpty() || psw.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Vui lòng nhập thông tin đăng nhập", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Please enter your login information", Toast.LENGTH_SHORT).show();
                 } else {
                     // Kiểm tra thông tin đăng nhập trong database
                     if (db.checkUser(id, psw)) {
@@ -96,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
                         editor.apply();
 
                         // Hiển thị thông báo đăng nhập thành công
-                        Toast.makeText(MainActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
 
                         // Chuyển sang màn hình tiếp theo
                         Intent intent = new Intent(MainActivity.this, Convert.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(MainActivity.this, "Thông tin đăng nhập không đúng", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Incorrect login information", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                editor.putString("username", "Khách");  // Lưu tên là "Khách"
+                editor.putString("username", "Guest");  // Lưu tên là "Khách"
                 editor.putString("email", "khach@example.com");  // Email mặc định
                 editor.putString("sdt", "0000000000");           // Số điện thoại mặc định
                 editor.putString("password", "");                // Mật khẩu mặc định

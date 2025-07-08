@@ -29,6 +29,14 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"/>
 
+    <TextView
+        android:id="@+id/tvBienDongGia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Biển động giá"
+        android:textStyle="italic|bold"
+        android:paddingLeft="14dp"
+        android:textColor="@color/white" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

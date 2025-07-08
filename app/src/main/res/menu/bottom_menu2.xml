@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/bottom_trongnuoc"
-        android:title="Tin Trong Nước"
+        android:title="Domestic News"
         />
     <item
         android:id="@+id/bottom_quocte"
-        android:title="Tin Quốc Tế" />
+        android:title="International News" />
 </menu>

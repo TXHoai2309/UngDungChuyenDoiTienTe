@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,10 +127,23 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         boolean isValid = cursor.moveToFirst();
         cursor.close();
         return isValid;
-        //
-
     }
 
+    public boolean isUserIdExists(String id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT 1 FROM " + TABLE_NAME + " WHERE " + COL_ID + "=?";
+        Cursor cursor = db.rawQuery(query, new String[]{id});
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
+    }
+    public boolean updatePassword(String userId, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_PSW, newPassword);
+        int rows = db.update(TABLE_NAME, values, COL_ID + "=?", new String[]{userId});
+        return rows > 0;
+    }
     // Xóa tài khoản người dùng
     public int deleteUser(String userId) {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -1,10 +1,9 @@
-<!-- res/layout/dialog_edit_profile.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#383636"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#383636">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/tvDialogTitle"
@@ -12,61 +11,59 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
-        android:text="Edit Profile"
+        android:text="Change Password"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-
-    <!-- Trường Họ tên -->
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvOldpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="Old Password"
         android:textColor="@color/white" />
 
     <EditText
-        android:id="@+id/edtName"
+        android:id="@+id/edtOldpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#A9A9A9"
-        android:hint="UserName"
+        android:hint="Old Password"
         android:textColor="#FFFFFF" />
 
-    <!-- Trường Email -->
     <TextView
-        android:id="@+id/tvemail"
+        android:id="@+id/tvNewpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="New Password"
         android:textColor="@color/white" />
 
     <EditText
-        android:id="@+id/edtEmail"
+        android:id="@+id/edtNewpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textColor="#FFFFFF"
-        android:background="#A9A9A9"/>
+        android:background="#A9A9A9"
+        android:hint="New Password"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF" />
 
     <!-- Trường Số điện thoại -->
     <TextView
-        android:id="@+id/textView32"
+        android:id="@+id/tvConfirmNP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Phone Number"
+        android:text="Confirm NP"
         android:textColor="@color/white" />
 
     <EditText
-        android:id="@+id/edtPhone"
+        android:id="@+id/edtConfirmnp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#A9A9A9"
-        android:hint="Phone Number"
-        android:inputType="phone"
+        android:hint="Confirm"
+        android:inputType="textPassword"
         android:textColor="#FFFFFF" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,20 +72,20 @@
 
         <Button
             android:id="@+id/btnCancel"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:text="CANCEL"
-            android:textColor="#FFFFFF"
-            android:background="@android:color/transparent"/>
+            android:textColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btnSave"
-            android:layout_width="0dp"
+            android:id="@+id/btnOk"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="SAVE"
-            android:textColor="#FFFFFF"
-            android:background="@android:color/transparent"/>
+            android:layout_marginLeft="24dp"
+            android:background="@android:color/transparent"
+            android:text="OK"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
+
 </LinearLayout>

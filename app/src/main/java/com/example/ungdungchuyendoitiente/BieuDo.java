@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class BieuDo extends AppCompatActivity {
-    private TextView txtThoiGian, txtDate;
+    private TextView txtThoiGian, txtDate, tvBienDongGia;
     private CandleStickChart candleStickChart;
-    private String DulieuBieuDo;
+    private String DulieuBieuDo, BienDongGia;
     private ImageView imgBack;
 
     @Override
@@ -53,7 +53,9 @@ public class BieuDo extends AppCompatActivity {
 
         txtThoiGian = findViewById(R.id.txtThoiGian);
         txtDate = findViewById(R.id.txtDate);
-
+        tvBienDongGia = findViewById(R.id.tvBienDongGia);
+        BienDongGia = getIntent().getStringExtra("BienDongGia");
+        tvBienDongGia.setText(BienDongGia);
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         String time = timeFormat.format(calendar.getTime());
@@ -63,7 +65,6 @@ public class BieuDo extends AppCompatActivity {
 
         txtThoiGian.setText(time);
         txtDate.setText(date);
-
         imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(v -> {
             Intent intent = new Intent(BieuDo.this, Convert.class);
