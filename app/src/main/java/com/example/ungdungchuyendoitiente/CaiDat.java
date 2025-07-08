@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -115,5 +116,22 @@ public class CaiDat extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        TextView tvThemes = findViewById(R.id.textView12);     // "Themes"
+        TextView tvLanguages = findViewById(R.id.textView24);  // "Languages"
+        btnGray.setOnClickListener(v ->
+                        Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
+        );
+        btnWhite.setOnClickListener(v ->
+                Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
+        );
+
+        tvThemes.setOnClickListener(v ->
+                Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
+        );
+
+        tvLanguages.setOnClickListener(v ->
+                Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
+        );
+
     }
 }
