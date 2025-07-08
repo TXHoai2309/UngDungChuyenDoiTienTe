@@ -137,7 +137,13 @@ public class DataBaseHelper_DangKy extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
-
+    public boolean updatePassword(String userId, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_PSW, newPassword);
+        int rows = db.update(TABLE_NAME, values, COL_ID + "=?", new String[]{userId});
+        return rows > 0;
+    }
     // Xóa tài khoản người dùng
     public int deleteUser(String userId) {
         SQLiteDatabase db = this.getWritableDatabase();
