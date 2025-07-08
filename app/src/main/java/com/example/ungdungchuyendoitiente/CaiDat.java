@@ -160,8 +160,37 @@ public class CaiDat extends AppCompatActivity {
         tvLanguages.setOnClickListener(v ->
                 Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
         );
+        imgLanguages.setOnClickListener(v ->
+                Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
+        );
+        // Thông tin và điều khoản
+        tvTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TermsDialog.show(CaiDat.this);
+            }
+        });
+        imgTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TermsDialog.show(CaiDat.this);
+            }
+        });
+        tvAboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutUsDialog.show(CaiDat.this);
+            }
+        });
+        imgAboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutUsDialog.show(CaiDat.this);
+            }
+        });
     }
-    private void showChangePasswordDialog(){
+
+    private void showChangePasswordDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_doimatkhau);
         Window window = dialog.getWindow();
@@ -235,34 +264,7 @@ public class CaiDat extends AppCompatActivity {
             }
         });
 
+
         dialog.show();
-        imgLanguages.setOnClickListener(v ->
-                Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
-        );
-        // Thông tin và điều khoản
-        tvTerms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TermsDialog.show(CaiDat.this);
-            }
-        });
-        imgTerms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TermsDialog.show(CaiDat.this);
-            }
-        });
-        tvAboutUs.setOnClickListener(new View.OnClickListener() {;
-            @Override
-            public void onClick(View v) {
-                AboutUsDialog.show(CaiDat.this);
-            }
-        });
-        imgAboutUs.setOnClickListener(new View.OnClickListener() {;
-            @Override
-            public void onClick(View v) {
-                AboutUsDialog.show(CaiDat.this);
-            }
-        });
     }
 }
