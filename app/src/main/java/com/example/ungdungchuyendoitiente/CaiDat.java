@@ -58,12 +58,10 @@ public class CaiDat extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Guest");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Khách"
         txtUser.setText(username);
-         // Đăng xuất người dùng
-        //
+        // Đăng xuất
         TextView tvChangePassword = findViewById(R.id.tvChangePassword);
-
         tvChangePassword.setOnClickListener(v -> showChangePasswordDialog());
-
+        // Đăng xuất người dùng
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +90,7 @@ public class CaiDat extends AppCompatActivity {
                 finish();
             }
         });
-
+        // Menu
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.bottom_setting) {
                 return true;
