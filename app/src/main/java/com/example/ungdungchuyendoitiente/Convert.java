@@ -53,6 +53,8 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
     private String numberBottom = "";
     private ImageView imgvietnam, imgusa, imgResetPrice;
     private ImageButton btnchange;
+    private String giaText = "";
+
 
     private static final int REQUEST_CODE_SELECT_TOP = 1001;
     private static final int REQUEST_CODE_SELECT_BOTTOM = 1002;
@@ -161,6 +163,7 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                 String toCurrency = getCurrencyCodeByCountry(tenQuocGiaBottom);
                 Intent intent = new Intent(Convert.this, BieuDo.class);
                 intent.putExtra("DulieuBieuDo", fromCurrency + "/" + toCurrency);
+                intent.putExtra("BienDongGia", giaText);
                 startActivity(intent);
             }
         });
@@ -238,8 +241,10 @@ public class Convert extends AppCompatActivity implements View.OnClickListener {
                     double rate = usdToTo / usdToFrom;
                     //String formattedRate = formatResult(rate);
                     tvTigia.setText(String.format("1 %s = %s %s", from, rate, to));
-
+                    giaText = String.format("1 %s = %s %s", from, rate, to);
+                    tvTigia.setText(giaText);
                     convertCurrency(isTopSelected);
+
                 } else {
                     tvTigia.setText("Error fetching rates");
                 }

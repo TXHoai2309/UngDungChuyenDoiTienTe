@@ -1,14 +1,15 @@
 package com.example.ungdungchuyendoitiente;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,10 @@ public class CaiDat extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Guest");  // Lấy tên người dùng từ SharedPreferences, nếu không có thì dùng "Khách"
         txtUser.setText(username);
-         // Đăng xuất người dùng
+        // Đăng xuất
+        TextView tvChangePassword = findViewById(R.id.tvChangePassword);
+        tvChangePassword.setOnClickListener(v -> showChangePasswordDialog());
+        // Đăng xuất người dùng
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +90,7 @@ public class CaiDat extends AppCompatActivity {
                 finish();
             }
         });
-
+        // Menu
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.bottom_setting) {
                 return true;
@@ -145,6 +149,7 @@ public class CaiDat extends AppCompatActivity {
         btnWhite.setOnClickListener(v ->
                 Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
         );
+
         tvThemes.setOnClickListener(v ->
                 Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
         );
@@ -155,6 +160,82 @@ public class CaiDat extends AppCompatActivity {
         tvLanguages.setOnClickListener(v ->
                 Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
         );
+    }
+    private void showChangePasswordDialog(){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_doimatkhau);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.copyFrom(window.getAttributes());
+            layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+            window.setAttributes(layoutParams);
+        }
+
+        EditText edtOld = dialog.findViewById(R.id.edtOldpassword);
+        EditText edtNew = dialog.findViewById(R.id.edtNewpassword);
+        EditText edtConfirm = dialog.findViewById(R.id.edtConfirmnp);
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+
+        // Nếu là khách thì báo Toast và return luôn
+        if (username.equals("Guest")) {
+            Toast.makeText(this, "Please log in to use this feature!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnOk.setOnClickListener(v -> {
+            String oldPass = edtOld.getText().toString().trim();
+            String newPass = edtNew.getText().toString().trim();
+            String confirmPass = edtConfirm.getText().toString().trim();
+            String userId = sharedPreferences.getString("uid", ""); // Lấy uid đúng với DB
+            String passwordFromPrefs = sharedPreferences.getString("matkhau", "");
+
+            // So sánh mật khẩu cũ
+            if (!oldPass.equals(passwordFromPrefs)) {
+                Toast.makeText(this, "Old password is incorrect!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Kiểm tra mật khẩu mới với xác nhận
+            if (!newPass.equals(confirmPass)) {
+                Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Cập nhật mật khẩu mới vào Database
+            DataBaseHelper_DangKy db = new DataBaseHelper_DangKy(CaiDat.this);
+            ThongTinDangKy user = db.getUserInfo(userId); // dùng uid, không dùng username!
+            if (user == null) {
+                Toast.makeText(this, "User not found!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ThongTinDangKy updatedUser = new ThongTinDangKy(
+                    user.getUid(),
+                    user.getHoTen(),
+                    newPass,      // Mật khẩu mới
+                    user.getEmail(),
+                    user.getSdt()
+            );
+            int rows = db.updateThongTinDangKy(updatedUser);
+
+            if (rows > 0) {
+                // Cập nhật vào SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("matkhau", newPass);
+                editor.apply();
+                Toast.makeText(this, "Password updated successfully!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            } else {
+                Toast.makeText(this, "Failed to update password in DB!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
         imgLanguages.setOnClickListener(v ->
                 Toast.makeText(CaiDat.this, "Function under development", Toast.LENGTH_SHORT).show()
         );
