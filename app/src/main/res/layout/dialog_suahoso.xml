@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:background="#A9A9A9"
         android:hint="UserName"
+        android:layout_marginTop="3dp"
         android:textColor="#FFFFFF" />
 
     <!-- Trường Email -->
@@ -40,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Email"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white" />
 
     <EditText
@@ -47,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
+        android:layout_marginTop="3dp"
         android:inputType="textEmailAddress"
         android:textColor="#FFFFFF"
         android:background="#A9A9A9"/>
@@ -57,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Phone Number"
+        android:layout_marginTop="3dp"
         android:textColor="@color/white" />
 
     <EditText
@@ -65,6 +69,7 @@
         android:layout_height="wrap_content"
         android:background="#A9A9A9"
         android:hint="Phone Number"
+        android:layout_marginTop="10dp"
         android:inputType="phone"
         android:textColor="#FFFFFF" />
     <LinearLayout

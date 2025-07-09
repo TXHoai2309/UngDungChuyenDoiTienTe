@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:background="#A9A9A9"
         android:hint="Old Password"
+        android:layout_marginTop="3dp"
         android:textColor="#FFFFFF" />
 
     <TextView
@@ -36,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Password"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white" />
 
     <EditText
@@ -44,6 +46,7 @@
         android:layout_height="wrap_content"
         android:background="#A9A9A9"
         android:hint="New Password"
+        android:layout_marginTop="3dp"
         android:inputType="textPassword"
         android:textColor="#FFFFFF" />
 
@@ -53,6 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Confirm NP"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white" />
 
     <EditText
@@ -61,6 +65,7 @@
         android:layout_height="wrap_content"
         android:background="#A9A9A9"
         android:hint="Confirm"
+        android:layout_marginTop="3dp"
         android:inputType="textPassword"
         android:textColor="#FFFFFF" />
 
