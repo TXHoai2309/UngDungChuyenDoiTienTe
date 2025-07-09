@@ -113,33 +113,30 @@ public class CaiDat extends AppCompatActivity {
         txtUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy userId hoặc username từ SharedPreferences
                 // Lấy userId từ SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
                 String userId = sharedPreferences.getString("username", "Unknown User");
 
-
                 // Chuyển sang ProfileActivity và truyền userId
                 Intent intent = new Intent(CaiDat.this, Profile.class);
                 intent.putExtra("userId", userId);  // Truyền userId vào ProfileActivity
-                startActivity(intent);
+                startActivityForResult(intent, 1); // Gửi yêu cầu quay lại với mã yêu cầu 1
             }
         });
         imgAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy userId hoặc username từ SharedPreferences
                 // Lấy userId từ SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
                 String userId = sharedPreferences.getString("username", "Unknown User");
 
-
                 // Chuyển sang ProfileActivity và truyền userId
                 Intent intent = new Intent(CaiDat.this, Profile.class);
                 intent.putExtra("userId", userId);  // Truyền userId vào ProfileActivity
-                startActivity(intent);
+                startActivityForResult(intent, 1); // Gửi yêu cầu quay lại với mã yêu cầu 1
             }
         });
+
         // Chức năng chuyển đổi giao diện và ngôn ngữ
         TextView tvThemes = findViewById(R.id.textView12);     // "Themes"
         TextView tvLanguages = findViewById(R.id.textView24);  // "Languages"
@@ -189,7 +186,25 @@ public class CaiDat extends AppCompatActivity {
             }
         });
     }
+    // Cập nhật lại tên sau khi sửa
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Nhận tên người dùng mới từ ProfileActivity
+            String updatedUsername = data.getStringExtra("updatedUsername");
 
+            // Cập nhật lại SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("username", updatedUsername);  // Cập nhật tên người dùng mới
+            editor.apply();
+
+            // Cập nhật lại TextView hiển thị tên người dùng
+            txtUser.setText(updatedUsername);
+        }
+    }
+    //
     private void showChangePasswordDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_doimatkhau);

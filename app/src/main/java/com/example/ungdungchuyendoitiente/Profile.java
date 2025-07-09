@@ -128,6 +128,11 @@ public class Profile extends AppCompatActivity {
             editor.putString("sdt", newPhone);
             editor.apply();
 
+            // Trả kết quả cho CaiDat
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("updatedUsername", newName);
+            setResult(RESULT_OK, resultIntent);
+
             Toast.makeText(Profile.this, "Update Successful!", Toast.LENGTH_SHORT).show();
             // Cập nhật lại các TextView trên màn hình Hồ sơ
             tvHoten2.setText(newName);
@@ -137,8 +142,9 @@ public class Profile extends AppCompatActivity {
             dialog.dismiss(); // Thoát dialog sau khi save
         });
 
-        dialog.show();
+        dialog.show(); // Đảm bảo gọi show để dialog hiển thị
     }
+
     // Hàm hiển thị Dialog xóa tài khoản
     private void showDeleteDialog(final String userId) {
         ThongTinDangKy userInfo = db.getUserInfo(userId);
