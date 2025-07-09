@@ -76,6 +76,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:text="CANCEL"
+            android:layout_marginTop="10dp"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -85,6 +86,7 @@
             android:layout_marginLeft="24dp"
             android:background="@android:color/transparent"
             android:text="OK"
+            android:layout_marginTop="10dp"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 

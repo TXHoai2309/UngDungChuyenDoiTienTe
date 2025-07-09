@@ -79,6 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="CANCEL"
+            android:layout_marginTop="10dp"
             android:textColor="#FFFFFF"
             android:background="@android:color/transparent"/>
 
@@ -88,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="SAVE"
+            android:layout_marginTop="10dp"
             android:textColor="#FFFFFF"
             android:background="@android:color/transparent"/>
     </LinearLayout>
